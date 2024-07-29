@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias FetchPokemonListResult = Result<PokemonListResult, ApiError>
+typealias FetchPokemonListResult = Result<[Pokemon], ApiError>
 
 protocol PokemonServiceProtocol {
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void)
@@ -15,9 +15,11 @@ protocol PokemonServiceProtocol {
 
 class PokemonService: PokemonServiceProtocol {
     let client: HTTPClient
+    let mapper: PokemonListMapper
     
-    init(client: HTTPClient = URLSession.shared) {
+    init(client: HTTPClient = URLSession.shared, mapper: PokemonListMapper = PokemonListMapper()) {
         self.client = client
+        self.mapper = mapper
     }
     
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void) {
@@ -27,9 +29,8 @@ class PokemonService: PokemonServiceProtocol {
             return
         }
         
-        client.perform(request: request) { result in
-            let mappedResult: FetchPokemonListResult = GenericHttpRequestMaper.map(result: result)
-            completion(mappedResult)
+        client.perform(request: request) { [mapper] result in
+            completion(mapper.map(result: result))
         }
     }
     

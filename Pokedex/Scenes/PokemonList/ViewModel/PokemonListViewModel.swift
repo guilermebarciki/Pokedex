@@ -43,7 +43,7 @@ class PokemonListViewModel {
         service.fetchPokemonList { [weak self] result in
             switch result {
             case .success(let pokemonList):
-                self?.allPokemon = pokemonList.results
+                self?.allPokemon = pokemonList
                 self?.filterPokemon()
             case .failure(let error):
                 fatalError()
