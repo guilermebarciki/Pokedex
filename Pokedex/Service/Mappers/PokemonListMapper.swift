@@ -15,7 +15,7 @@ struct PokemonListMapper {
     }
     
     func map(result: NetworkResult) -> Result<[Pokemon], ApiError> {
-        let mappedResult: Result<PokemonListResult, ApiError> = mapper.map(result: result)
+        let mappedResult: Result<PokemonListResponse, ApiError> = mapper.map(result: result)
         
         switch mappedResult {
         case .success(let pokemonResult):

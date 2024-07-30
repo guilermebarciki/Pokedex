@@ -10,15 +10,24 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
+        
         let pokemonListViewController = PokemonListViewController()
-        let navigationController = UINavigationController(rootViewController: pokemonListViewController)
-        window?.rootViewController = navigationController
+        let pokemonListNavController = UINavigationController(rootViewController: pokemonListViewController)
+        pokemonListNavController.tabBarItem = UITabBarItem(title: "List", image: UIImage(systemName: "list.bullet"), tag: 0)
+        
+        let pokemonScannerViewController = PokemonScannerViewController()
+        let pokemonScannerNavController = UINavigationController(rootViewController: pokemonScannerViewController)
+        pokemonScannerNavController.tabBarItem = UITabBarItem(title: "Scanner", image: UIImage(systemName: "camera.viewfinder"), tag: 1)
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [pokemonListNavController, pokemonScannerNavController]
+        
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 

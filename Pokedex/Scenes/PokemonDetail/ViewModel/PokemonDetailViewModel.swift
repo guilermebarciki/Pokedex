@@ -11,7 +11,7 @@ protocol PokemonDetailDelegate: AnyObject {}
 
 typealias PokemonDetailNavigationData = Any
 
-class PokemonDetailViewModel {
+final class PokemonDetailViewModel {
     
     
     // MARK: - Properties

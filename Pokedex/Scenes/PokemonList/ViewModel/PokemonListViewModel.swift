@@ -13,7 +13,7 @@ protocol PokemonListDelegate: AnyObject {
 
 typealias PokemonListNavigationData = Any
 
-class PokemonListViewModel {
+final class PokemonListViewModel {
     
     // MARK: - Properties
     
@@ -46,7 +46,7 @@ class PokemonListViewModel {
                 self?.allPokemon = pokemonList
                 self?.filterPokemon()
             case .failure(let error):
-                fatalError()
+                fatalError(error.localizedDescription)
             }
         }
         
@@ -85,10 +85,23 @@ extension PokemonListViewModel {
 
 // MARK: - Pokemon Model
 
-struct PokemonListResult: Decodable {
+struct PokemonListResponse: Decodable {
     let results: [Pokemon]
 }
 
 struct Pokemon: Decodable {
     let name: String
+    let url: String
+    
+    var number: Int {
+        return url.extractPokemonNumber() ?? 0
+    }
+    
+    var pokemonImage: String {
+        print("name: \(name) url: \(url) number: \(number)")
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(number).png"
+
+    }
 }
+
+

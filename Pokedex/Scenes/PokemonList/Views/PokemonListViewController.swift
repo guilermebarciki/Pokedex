@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PokemonListViewController: UIViewController {
+final class PokemonListViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -18,13 +18,16 @@ class PokemonListViewController: UIViewController {
         return PokemonListRouter(with: navigationController)
     }()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(PokemonTableViewCell.self, forCellReuseIdentifier: PokemonTableViewCell.identifier)
         return tableView
     }()
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    private let headerView = PokemonListHeaderView()
     
     // MARK: - View's life cycle
     
@@ -48,6 +51,12 @@ class PokemonListViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = true
     }
     
+    // MARK: - Actions
+    
+    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        // Handle segmented control value change
+//        viewModel.updateForSegmentIndex(sender.selectedSegmentIndex)
+    }
 }
 
 // MARK: - Setup Methods
@@ -57,11 +66,7 @@ extension PokemonListViewController {
     private func setupInterface() {
         view.backgroundColor = .white
         view.addSubview(tableView)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-#warning("botar placeholder em estrutura de strings")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        setupTableHeaderView()
     }
     
     private func setupConstraints() {
@@ -73,18 +78,16 @@ extension PokemonListViewController {
         ])
     }
     
-    private func setupSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-#warning("botar placeholder em estrutura de strings")
-        searchController.searchBar.placeholder = "Search Pokémon"
-        searchController.isActive = true
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = true
-        definesPresentationContext = true
-        
+    private func setupTableHeaderView() {
+        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 92)
+        tableView.tableHeaderView = headerView
+        headerView.segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }
     
+    private func setupSearchController() {
+        headerView.searchBar.delegate = self
+        definesPresentationContext = true
+    }
 }
 
 // MARK: - Navigation
@@ -94,14 +97,12 @@ extension PokemonListViewController {
     func prepareForNavigation(with navigationData: PokemonListNavigationData) {
         viewModel.prepareForNavigation(with: navigationData)
     }
-    
 }
 
-// MARK: - UISearchResultsUpdating
+// MARK: - UISearchBarDelegate
 
-extension PokemonListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
+extension PokemonListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.updateSearchQuery(searchText)
     }
 }
@@ -114,10 +115,10 @@ extension PokemonListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-#warning("usar extension de celula pra criar a celula")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell: PokemonTableViewCell = .createCell(tableView: tableView, indexPath: indexPath)
         let pokemon = viewModel.pokemon(at: indexPath.row)
-        cell.textLabel?.text = pokemon.name
+
+        cell.configure(with: pokemon.name, number: pokemon.number, imageURL: pokemon.pokemonImage)
         return cell
     }
 }
@@ -127,8 +128,7 @@ extension PokemonListViewController: UITableViewDataSource {
 extension PokemonListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let pokemon = viewModel.pokemon(at: indexPath.row)
-        let x = "dsds"
-        router?.navigateToPokemonDetail()
+//        router?.navigateToPokemonDetail(with: pokemon)
     }
 }
 
@@ -141,5 +141,8 @@ extension PokemonListViewController: PokemonListDelegate {
             self.tableView.reloadData()
         }
     }
-    
 }
+
+
+
+

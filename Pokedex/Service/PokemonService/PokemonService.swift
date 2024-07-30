@@ -13,7 +13,7 @@ protocol PokemonServiceProtocol {
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void)
 }
 
-class PokemonService: PokemonServiceProtocol {
+final class PokemonService: PokemonServiceProtocol {
     let client: HTTPClient
     let mapper: PokemonListMapper
     

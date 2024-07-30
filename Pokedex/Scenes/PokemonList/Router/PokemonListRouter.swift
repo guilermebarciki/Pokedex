@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PokemonListRouter {
+final class PokemonListRouter {
     
     
     // MARK: - Properties
