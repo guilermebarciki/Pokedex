@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum PresentationMode {
+    case all
+    case catched
+}
+
 protocol PokemonListDelegate: AnyObject {
     func didUpdatePokemonList()
 }
@@ -28,6 +33,7 @@ final class PokemonListViewModel {
             filterPokemon()
         }
     }
+    private var presentationMode: PresentationMode = .all
     
     // MARK: - Init
     
@@ -71,8 +77,16 @@ final class PokemonListViewModel {
         return filteredPokemon.count
     }
     
-    func pokemon(at index: Int) -> Pokemon {
-        return filteredPokemon[index]
+    func pokemon(at index: Int) -> Pokemon? {
+        return filteredPokemon.safeFind(at: index)
+    }
+    
+    func setPresentationStatus(index: Int) {
+        presentationMode = index == 0 ? .all : .catched
+    }
+    
+    func getPresentationStatus() -> PresentationMode {
+        return presentationMode
     }
     
 }
@@ -95,6 +109,10 @@ struct Pokemon: Decodable {
     
     var number: Int {
         return url.extractPokemonNumber() ?? 0
+    }
+    
+    var isCactched: Bool {
+        false
     }
     
     var pokemonImage: String {

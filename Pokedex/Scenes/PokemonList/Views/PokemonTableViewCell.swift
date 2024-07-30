@@ -64,8 +64,8 @@ final class PokemonTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             pokemonImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             pokemonImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            pokemonImageView.widthAnchor.constraint(equalToConstant: 90),
-            pokemonImageView.heightAnchor.constraint(equalToConstant: 90),
+            pokemonImageView.widthAnchor.constraint(equalToConstant: 70),
+            pokemonImageView.heightAnchor.constraint(equalToConstant: 70),
             
             nameLabel.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor, constant: 16),
             nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
@@ -80,11 +80,19 @@ final class PokemonTableViewCell: UITableViewCell {
     
     // MARK: - Configuration Method
     
-    func configure(with name: String, number: Int, imageURL: String) {
-        nameLabel.text = name
-        numberLabel.text = "No. \(number)"
-
-        pokemonImageView.loadImage(urlString: imageURL)
+    func configure(pokemon: Pokemon, presentationMode: PresentationMode) {
+        
+        numberLabel.text = "No. \(pokemon.number)"
+        
+        if pokemon.isCactched || presentationMode == .all {
+            pokemonImageView.loadImage(urlString: pokemon.pokemonImage, placeholder: UIImage(named: "pokeball"))
+            nameLabel.text = pokemon.name
+        } else {
+            pokemonImageView.image = UIImage(named: "pokeball")
+            nameLabel.text = "????"
+        }
+        
+        
     }
     
 }

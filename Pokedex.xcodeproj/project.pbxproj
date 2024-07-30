@@ -47,6 +47,7 @@
 		B2F796402C59858D004701EF /* PokemonScannerStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796372C59858D004701EF /* PokemonScannerStrings.swift */; };
 		B2F796412C59858D004701EF /* PokemonScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7963A2C59858D004701EF /* PokemonScannerViewModel.swift */; };
 		B2F796432C598A37004701EF /* PokemonListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796422C598A37004701EF /* PokemonListHeaderView.swift */; };
+		B2F796452C598E25004701EF /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796442C598E25004701EF /* Array+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		B2F796372C59858D004701EF /* PokemonScannerStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonScannerStrings.swift; sourceTree = "<group>"; };
 		B2F7963A2C59858D004701EF /* PokemonScannerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonScannerViewModel.swift; sourceTree = "<group>"; };
 		B2F796422C598A37004701EF /* PokemonListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListHeaderView.swift; sourceTree = "<group>"; };
+		B2F796442C598E25004701EF /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +421,7 @@
 				B2F795F72C586FD1004701EF /* UIImageView+Extensions.swift */,
 				B2F795F92C586FF4004701EF /* String+Extensions.swift */,
 				B2F7960A2C598422004701EF /* TableView+Extensions.swift */,
+				B2F796442C598E25004701EF /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				B2F795B92C582820004701EF /* PokemonListViewModel.swift in Sources */,
 				B2F7960B2C598422004701EF /* TableView+Extensions.swift in Sources */,
 				B2F795D72C5831E0004701EF /* PokemonDetailViewController.swift in Sources */,
+				B2F796452C598E25004701EF /* Array+Extensions.swift in Sources */,
 				B2F796402C59858D004701EF /* PokemonScannerStrings.swift in Sources */,
 				B2F795BA2C582820004701EF /* PokemonListImages.swift in Sources */,
 				B2F795DA2C583B88004701EF /* HTTPClient.swift in Sources */,

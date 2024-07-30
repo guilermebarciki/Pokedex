@@ -54,8 +54,8 @@ final class PokemonListViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
-        // Handle segmented control value change
-//        viewModel.updateForSegmentIndex(sender.selectedSegmentIndex)
+        viewModel.setPresentationStatus(index: sender.selectedSegmentIndex)
+        tableView.reloadData()
     }
 }
 
@@ -116,9 +116,11 @@ extension PokemonListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: PokemonTableViewCell = .createCell(tableView: tableView, indexPath: indexPath)
-        let pokemon = viewModel.pokemon(at: indexPath.row)
+        guard let pokemon = viewModel.pokemon(at: indexPath.row) else {
+            return UITableViewCell()
+        }
 
-        cell.configure(with: pokemon.name, number: pokemon.number, imageURL: pokemon.pokemonImage)
+        cell.configure(pokemon: pokemon, presentationMode: viewModel.getPresentationStatus())
         return cell
     }
 }
