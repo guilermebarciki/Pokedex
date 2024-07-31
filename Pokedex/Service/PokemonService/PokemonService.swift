@@ -25,7 +25,7 @@ final class PokemonService: PokemonServiceProtocol {
     
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void) {
         
-        guard let request = PokemonListProvider.getPokemonList.makeRequest else {
+        guard let request = PokemonListEndpointProvider.getPokemonList.makeRequest else {
             completion(.failure(.invalidRequest))
             return
         }
@@ -36,7 +36,7 @@ final class PokemonService: PokemonServiceProtocol {
     }
     
     func fetchPokemonDetail(with name: String, completion: @escaping (FetchPokemonDetailResult) -> Void) {
-        guard let request = PokemonDetailProvider.getPokemonDetail(name: name).makeRequest else {
+        guard let request = PokemonDetailEndpointProvider.getPokemonDetail(name: name).makeRequest else {
             completion(.failure(.invalidRequest))
             return
         }

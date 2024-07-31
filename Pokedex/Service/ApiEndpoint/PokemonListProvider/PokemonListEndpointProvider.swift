@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum PokemonListProvider {
+enum PokemonListEndpointProvider {
     case getPokemonList
 }
 
-extension PokemonListProvider: ApiEndpoint {
+extension PokemonListEndpointProvider: ApiEndpoint {
     var baseUrlString: String {
         return "https://pokeapi.co"
     }

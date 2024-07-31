@@ -32,7 +32,7 @@
 		B2F795DF2C583BF1004701EF /* HttpRequestMaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795DE2C583BF1004701EF /* HttpRequestMaper.swift */; };
 		B2F795E32C583C2F004701EF /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795E22C583C2F004701EF /* ApiError.swift */; };
 		B2F795E82C583CC2004701EF /* ApiEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795E72C583CC2004701EF /* ApiEndpoint.swift */; };
-		B2F795EB2C583CFB004701EF /* PokemonListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795EA2C583CFB004701EF /* PokemonListProvider.swift */; };
+		B2F795EB2C583CFB004701EF /* PokemonListEndpointProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795EA2C583CFB004701EF /* PokemonListEndpointProvider.swift */; };
 		B2F795EE2C583DBF004701EF /* PokemonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795ED2C583DBF004701EF /* PokemonService.swift */; };
 		B2F795F02C5859DD004701EF /* PokemonListMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795EF2C5859DD004701EF /* PokemonListMapper.swift */; };
 		B2F795F32C5862E2004701EF /* CodeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795F22C5862E2004701EF /* CodeHandler.swift */; };
@@ -52,7 +52,7 @@
 		B2F7964C2C59B7AD004701EF /* PokemonListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7964B2C59B7AD004701EF /* PokemonListResponse.swift */; };
 		B2F7964E2C59B7D5004701EF /* PokemonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7964D2C59B7D5004701EF /* PokemonResponse.swift */; };
 		B2F796502C59B800004701EF /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7964F2C59B800004701EF /* Pokemon.swift */; };
-		B2F796522C59C4C3004701EF /* PokemonDetailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796512C59C4C3004701EF /* PokemonDetailProvider.swift */; };
+		B2F796522C59C4C3004701EF /* PokemonDetailEndpointProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796512C59C4C3004701EF /* PokemonDetailEndpointProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +102,7 @@
 		B2F795DE2C583BF1004701EF /* HttpRequestMaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestMaper.swift; sourceTree = "<group>"; };
 		B2F795E22C583C2F004701EF /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		B2F795E72C583CC2004701EF /* ApiEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoint.swift; sourceTree = "<group>"; };
-		B2F795EA2C583CFB004701EF /* PokemonListProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListProvider.swift; sourceTree = "<group>"; };
+		B2F795EA2C583CFB004701EF /* PokemonListEndpointProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListEndpointProvider.swift; sourceTree = "<group>"; };
 		B2F795ED2C583DBF004701EF /* PokemonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonService.swift; sourceTree = "<group>"; };
 		B2F795EF2C5859DD004701EF /* PokemonListMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListMapper.swift; sourceTree = "<group>"; };
 		B2F795F22C5862E2004701EF /* CodeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeHandler.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 		B2F7964B2C59B7AD004701EF /* PokemonListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListResponse.swift; sourceTree = "<group>"; };
 		B2F7964D2C59B7D5004701EF /* PokemonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonResponse.swift; sourceTree = "<group>"; };
 		B2F7964F2C59B800004701EF /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
-		B2F796512C59C4C3004701EF /* PokemonDetailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailProvider.swift; sourceTree = "<group>"; };
+		B2F796512C59C4C3004701EF /* PokemonDetailEndpointProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailEndpointProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -405,8 +405,8 @@
 		B2F795E92C583CE3004701EF /* PokemonListProvider */ = {
 			isa = PBXGroup;
 			children = (
-				B2F795EA2C583CFB004701EF /* PokemonListProvider.swift */,
-				B2F796512C59C4C3004701EF /* PokemonDetailProvider.swift */,
+				B2F795EA2C583CFB004701EF /* PokemonListEndpointProvider.swift */,
+				B2F796512C59C4C3004701EF /* PokemonDetailEndpointProvider.swift */,
 			);
 			path = PokemonListProvider;
 			sourceTree = "<group>";
@@ -681,12 +681,12 @@
 				B2F795FA2C586FF4004701EF /* String+Extensions.swift in Sources */,
 				B2F795EE2C583DBF004701EF /* PokemonService.swift in Sources */,
 				B2F795DF2C583BF1004701EF /* HttpRequestMaper.swift in Sources */,
-				B2F795EB2C583CFB004701EF /* PokemonListProvider.swift in Sources */,
+				B2F795EB2C583CFB004701EF /* PokemonListEndpointProvider.swift in Sources */,
 				B2F795B92C582820004701EF /* PokemonListViewModel.swift in Sources */,
 				B2F7960B2C598422004701EF /* TableView+Extensions.swift in Sources */,
 				B2F795D72C5831E0004701EF /* PokemonDetailViewController.swift in Sources */,
 				B2F796452C598E25004701EF /* Array+Extensions.swift in Sources */,
-				B2F796522C59C4C3004701EF /* PokemonDetailProvider.swift in Sources */,
+				B2F796522C59C4C3004701EF /* PokemonDetailEndpointProvider.swift in Sources */,
 				B2F796402C59858D004701EF /* PokemonScannerStrings.swift in Sources */,
 				B2F795BA2C582820004701EF /* PokemonListImages.swift in Sources */,
 				B2F795DA2C583B88004701EF /* HTTPClient.swift in Sources */,
