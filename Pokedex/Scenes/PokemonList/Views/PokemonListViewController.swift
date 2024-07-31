@@ -148,9 +148,16 @@ extension PokemonListViewController: UITableViewDelegate {
 
 extension PokemonListViewController: PokemonListDelegate {
     
+    func didFail(errorMessage: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.showAlert(message: errorMessage)
+        }
+    }
+    
+    
     func didUpdatePokemonList() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 }

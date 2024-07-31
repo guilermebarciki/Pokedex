@@ -21,5 +21,3 @@ class MockPokemonService: PokemonServiceProtocol {
         }
     }
 }
-
-

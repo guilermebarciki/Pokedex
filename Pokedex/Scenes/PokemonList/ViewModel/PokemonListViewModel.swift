@@ -14,6 +14,7 @@ enum PresentationMode {
 
 protocol PokemonListDelegate: AnyObject {
     func didUpdatePokemonList()
+    func didFail(errorMessage: String)
 }
 
 typealias PokemonListNavigationData = Any
@@ -54,7 +55,7 @@ final class PokemonListViewModel {
                 self?.allPokemon = pokemonList
                 self?.filterPokemon()
             case .failure(let error):
-                fatalError(error.localizedDescription)
+                self?.delegate?.didFail(errorMessage: error.localizedDescription)
             }
         }
         

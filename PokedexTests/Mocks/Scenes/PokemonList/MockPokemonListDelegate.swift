@@ -9,8 +9,14 @@
 
 class MockPokemonListDelegate: PokemonListDelegate {
     var didUpdatePokemonListCalled = false
+    var didFailCalled = false
     
     func didUpdatePokemonList() {
         didUpdatePokemonListCalled = true
     }
+    
+    func didFail(errorMessage: String){
+        didFailCalled = true
+    }
+    
 }

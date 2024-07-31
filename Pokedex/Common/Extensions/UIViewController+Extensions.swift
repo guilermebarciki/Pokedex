@@ -39,7 +39,7 @@ extension UIViewController {
         activityIndicator?.stopAnimating()
     }
     
-    func showAlert(title: String, message: String, buttonTitle: String, action: (() -> Void)?) {
+    func showAlert(title: String = "Error", message: String, buttonTitle: String = "ok", action: (() -> Void)? = nil) {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let alertAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
                 action?()
