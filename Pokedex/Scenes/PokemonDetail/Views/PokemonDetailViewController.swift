@@ -1,4 +1,4 @@
-//  
+//
 //  PokemonDetailViewController.swift
 //  Pokedex
 //
@@ -18,42 +18,32 @@ final class PokemonDetailViewController: UIViewController {
         return PokemonDetailRouter(with: navigationController)
     }()
     
-    private let pokemonImageView: UIImageView = {
+    private lazy var pokemonImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textAlignment = .center
         return label
     }()
     
-    private let baseExperienceLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        return label
+    private lazy var heightInfoView: InfoView = {
+        let view = InfoView()
+        return view
     }()
     
-    private let heightLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        return label
+    private lazy var weightInfoView: InfoView = {
+        let view = InfoView()
+        return view
     }()
     
-    private let weightLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let typesLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
+    private lazy var typesInfoView: InfoView = {
+        let view = InfoView()
+        return view
     }()
     
     private lazy var stackView: TransparentAndRoudedStackView = {
@@ -61,15 +51,15 @@ final class PokemonDetailViewController: UIViewController {
             arrangedSubviews: [
                 UIView(),
                 nameLabel,
-                baseExperienceLabel,
-                heightLabel,
-                weightLabel,
-                typesLabel,
+                UIView(),
+                heightInfoView,
+                weightInfoView,
+                typesInfoView,
                 UIView()
             ]
         )
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.spacing = 10
         return stackView
     }()
@@ -109,25 +99,26 @@ final class PokemonDetailViewController: UIViewController {
     }
     
     // MARK: - Update Methods
-
+    
     private func updateInterface(with data: PokemonDetail) {
-        DispatchQueue.main.async { [weak self] in
-            self?.nameLabel.text = data.name.capitalized
-            self?.heightLabel.text = "Height: \(data.height.formattedHeight())"
-            self?.weightLabel.text = "Weight: \(data.weight.formattedWeight())"
-            self?.pokemonImageView.loadImage(urlString: data.image)
-            let typesText = data.types.map { $0.getTitle() }.joined(separator: ", ")
-            self?.typesLabel.text = "Types: \(typesText)"
-            
-            if let primaryType = data.types.first {
-                self?.view.backgroundColor = primaryType.getColor()
-            }
+        
+        nameLabel.text = data.name.capitalized
+        heightInfoView.configure(title: "Height:", value: data.height.formattedHeight())
+        weightInfoView.configure(title: "Weigh:", value: data.weight.formattedWeight())
+        pokemonImageView.loadImage(urlString: data.image)
+        
+        let typesText = data.types.map { $0.getTitle() }.joined(separator: ", ")
+        typesInfoView.configure(title: "Types:", value: typesText)
+        
+        if let primaryType = data.types.first {
+            view.backgroundColor = primaryType.getColor()
         }
     }
     
     // MARK: - Navigation
     
     func prepareForNavigation(with navigationData: PokemonDetailNavigationData) {
+        showLoadingIndicator()
         viewModel.prepareForNavigation(with: navigationData)
     }
 }
@@ -136,7 +127,10 @@ final class PokemonDetailViewController: UIViewController {
 
 extension PokemonDetailViewController: PokemonDetailDelegate {
     func didFetchPokemonDetail(_ detail: PokemonDetail) {
-        updateInterface(with: detail)
+        DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
+            self?.updateInterface(with: detail)
+        }
     }
 }
 

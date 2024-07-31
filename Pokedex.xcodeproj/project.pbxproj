@@ -58,6 +58,7 @@
 		B2F796582C5AC1C5004701EF /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796572C5AC1C5004701EF /* UIColor+Extensions.swift */; };
 		B2F7965A2C5ACBCB004701EF /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796592C5ACBCB004701EF /* Double+Extensions.swift */; };
 		B2F7965D2C5ACCB1004701EF /* TransparentAndRoudedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7965C2C5ACCB1004701EF /* TransparentAndRoudedStackView.swift */; };
+		B2F7965F2C5AD209004701EF /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7965E2C5AD209004701EF /* UIViewController+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,7 @@
 		B2F796572C5AC1C5004701EF /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		B2F796592C5ACBCB004701EF /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		B2F7965C2C5ACCB1004701EF /* TransparentAndRoudedStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentAndRoudedStackView.swift; sourceTree = "<group>"; };
+		B2F7965E2C5AD209004701EF /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,6 +450,7 @@
 				B2F796442C598E25004701EF /* Array+Extensions.swift */,
 				B2F796572C5AC1C5004701EF /* UIColor+Extensions.swift */,
 				B2F796592C5ACBCB004701EF /* Double+Extensions.swift */,
+				B2F7965E2C5AD209004701EF /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -710,6 +713,7 @@
 				B2F795B92C582820004701EF /* PokemonListViewModel.swift in Sources */,
 				B2F7960B2C598422004701EF /* TableView+Extensions.swift in Sources */,
 				B2F795D72C5831E0004701EF /* PokemonDetailViewController.swift in Sources */,
+				B2F7965F2C5AD209004701EF /* UIViewController+Extensions.swift in Sources */,
 				B2F796452C598E25004701EF /* Array+Extensions.swift in Sources */,
 				B2F796522C59C4C3004701EF /* PokemonDetailEndpointProvider.swift in Sources */,
 				B2F796402C59858D004701EF /* PokemonScannerStrings.swift in Sources */,

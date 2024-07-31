@@ -70,3 +70,4 @@ extension UIImage {
         return UIImage(cgImage: cgImageResult)
     }
 }
+
