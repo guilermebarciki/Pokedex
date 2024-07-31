@@ -18,30 +18,27 @@ final class PokemonDetailViewModel {
     
     // MARK: - Properties
     
-    weak var delegate: PokemonDetailDelegate?
+    private weak var delegate: PokemonDetailDelegate?
+    let pokemonName: String
     
     // MARK: - Init
     
-    init(delegate: PokemonDetailDelegate?) {
+    init(pokemonName: String) {
+        self.pokemonName = pokemonName
+    }
+    
+    func setDelegate(delegate: PokemonDetailDelegate){
         self.delegate = delegate
     }
-}
-
-// MARK: - Navigation
-
-extension PokemonDetailViewModel {
     
-    func prepareForNavigation(with pokemonName: PokemonDetailNavigationData) {
-        fetchPokemonDetail(with: pokemonName)
-    }
 }
 
 // MARK: - Fetch Methods
 
 extension PokemonDetailViewModel {
     
-    func fetchPokemonDetail(with name: String) {
-        PokemonService().fetchPokemonDetail(with: name) { [weak self] result in
+    func fetchPokemonDetail() {
+        PokemonService().fetchPokemonDetail(with: pokemonName) { [weak self] result in
             switch result {
             case .success(let pokemonDetail):
                 self?.delegate?.didFetchPokemonDetail(pokemonDetail)

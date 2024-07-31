@@ -7,11 +7,21 @@
 
 import UIKit
 
+enum PokemonDetailFactory {
+    
+    static func make(with pokemonName: PokemonDetailNavigationData) -> PokemonDetailViewController {
+        let viewModel = PokemonDetailViewModel(pokemonName: pokemonName)
+        let vc = PokemonDetailViewController(viewModel: viewModel)
+        return vc
+    }
+    
+}
+
 final class PokemonDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    private lazy var viewModel = PokemonDetailViewModel(delegate: self)
+    private let viewModel: PokemonDetailViewModel
     
     private lazy var router: PokemonDetailRouter? = {
         guard let navigationController = navigationController else { return nil }
@@ -64,14 +74,29 @@ final class PokemonDetailViewController: UIViewController {
         return stackView
     }()
     
+    
+    // MARK: - Init
+    
+    init(viewModel: PokemonDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.setDelegate(delegate: self)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - View's life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupInterface()
         setupConstraints()
+        
+        fetchPokemon()
     }
+    
     
     // MARK: - Setup Methods
     
@@ -98,10 +123,10 @@ final class PokemonDetailViewController: UIViewController {
         ])
     }
     
-    // MARK: - Update Methods
+    
+    // MARK: - Private Methods
     
     private func updateInterface(with data: PokemonDetail) {
-        
         nameLabel.text = data.name.capitalized
         heightInfoView.configure(title: "Height:", value: data.height.formattedHeight())
         weightInfoView.configure(title: "Weigh:", value: data.weight.formattedWeight())
@@ -115,13 +140,13 @@ final class PokemonDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - Navigation
-    
-    func prepareForNavigation(with navigationData: PokemonDetailNavigationData) {
+    private func fetchPokemon() {
         showLoadingIndicator()
-        viewModel.prepareForNavigation(with: navigationData)
+        viewModel.fetchPokemonDetail()
     }
+    
 }
+
 
 // MARK: - PokemonDetailDelegate
 
@@ -130,7 +155,7 @@ extension PokemonDetailViewController: PokemonDetailDelegate {
     func didFail(errorMessage: String) {
         DispatchQueue.main.async { [weak self] in
             self?.hideLoadingIndicator()
-            self?.showAlert(title: "Error", message: errorMessage, buttonTitle: "Ok", action: {
+            self?.showAlert(message: errorMessage, action: {
                 self?.navigationController?.popViewController(animated: true)
             })
         }
@@ -146,5 +171,3 @@ extension PokemonDetailViewController: PokemonDetailDelegate {
     }
     
 }
-
-

@@ -30,8 +30,7 @@ extension PokemonDetailRouter {
     
     func navigate(with navigationData: PokemonDetailNavigationData, customAnimation: Bool = true, animated: Bool = true, completion: (() -> Void)? = nil) {
         
-        let viewController = PokemonDetailViewController()
-        viewController.prepareForNavigation(with: navigationData)
+        let viewController = PokemonDetailFactory.make(with: navigationData)
         navigationController.pushViewController(viewController, animated: animated)
     }
     
