@@ -214,6 +214,5 @@ protocol ClassificationControllerDelegate {
 }
 
 
-#warning("temporario")
-
+#warning("persistencia de dados temporaria")
 var caughtPokemons: Set<String> = []
