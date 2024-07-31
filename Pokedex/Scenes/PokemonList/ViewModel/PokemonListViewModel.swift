@@ -25,6 +25,7 @@ final class PokemonListViewModel {
     weak var delegate: PokemonListDelegate?
     
     private let service: PokemonServiceProtocol
+    private let dataPersistence: PokemonDataPersistence
     
     private var allPokemon: [Pokemon] = []
     private var filteredPokemon: [Pokemon] = []
@@ -37,9 +38,10 @@ final class PokemonListViewModel {
     
     // MARK: - Init
     
-    init(delegate: PokemonListDelegate?, service: PokemonServiceProtocol = PokemonService()) {
+    init(delegate: PokemonListDelegate?, service: PokemonServiceProtocol = PokemonService(), dataPersistence: PokemonDataPersistence = UserDefaultsPokemonDataPersistence()) {
         self.delegate = delegate
         self.service = service
+        self.dataPersistence = dataPersistence
     }
     
     // MARK: - Fetch Methods
@@ -94,15 +96,9 @@ final class PokemonListViewModel {
         guard let pokemonName = allPokemon.safeFind(at: index)?.name else {
             return false
         }
-        return UserDefaultsPokemonDataPersistence().isPokemonNameSaved(pokemonName)
+        return dataPersistence.isPokemonNameSaved(pokemonName)
     }
     
-}
-
-// MARK: - Navigation
-
-extension PokemonListViewModel {
-    func prepareForNavigation(with navigationData: PokemonListNavigationData) {}
 }
 
 

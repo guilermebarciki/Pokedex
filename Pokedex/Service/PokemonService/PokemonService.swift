@@ -12,6 +12,7 @@ typealias FetchPokemonDetailResult = Result<PokemonDetail, ApiError>
 
 protocol PokemonServiceProtocol {
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void)
+    func fetchPokemonDetail(with name: String, completion: @escaping (FetchPokemonDetailResult) -> Void)
 }
 
 final class PokemonService: PokemonServiceProtocol {

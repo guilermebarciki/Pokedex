@@ -31,7 +31,6 @@ extension PokemonListRouter {
     func navigate(with navigationData: PokemonListNavigationData, customAnimation: Bool = true, animated: Bool = true, completion: (() -> Void)? = nil) {
         
         let viewController = PokemonListViewController()
-        viewController.prepareForNavigation(with: navigationData)
         navigationController.pushViewController(viewController, animated: animated)
     }
     

@@ -104,16 +104,6 @@ extension PokemonListViewController {
     
 }
 
-// MARK: - Navigation
-
-extension PokemonListViewController {
-    
-    func prepareForNavigation(with navigationData: PokemonListNavigationData) {
-        viewModel.prepareForNavigation(with: navigationData)
-    }
-}
-
-
 // MARK: - UISearchBarDelegate
 
 extension PokemonListViewController: UISearchBarDelegate {
