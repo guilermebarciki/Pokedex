@@ -56,8 +56,18 @@ final class PokemonDetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, baseExperienceLabel, heightLabel, weightLabel, typesLabel])
+    private lazy var stackView: TransparentAndRoudedStackView = {
+        let stackView = TransparentAndRoudedStackView(
+            arrangedSubviews: [
+                UIView(),
+                nameLabel,
+                baseExperienceLabel,
+                heightLabel,
+                weightLabel,
+                typesLabel,
+                UIView()
+            ]
+        )
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 10
@@ -71,16 +81,6 @@ final class PokemonDetailViewController: UIViewController {
         
         setupInterface()
         setupConstraints()
-        
-        // Example data binding
-        let exampleData = PokemonDetailResponse(
-            name: "Pikachu",
-            height: 4,
-            weight: 60,
-            types: [TypeElementResponse(type: TypeInfoResponse(name: "electric"))]
-        )
-        let pokemonDetail = exampleData.toDomainModel()
-        updateInterface(with: pokemonDetail)
     }
     
     // MARK: - Setup Methods
@@ -90,8 +90,6 @@ final class PokemonDetailViewController: UIViewController {
         view.addSubview(pokemonImageView)
         view.addSubview(stackView)
         
-        // Placeholder image
-        pokemonImageView.image = UIImage(named: "placeholder")
     }
     
     private func setupConstraints() {
@@ -111,17 +109,19 @@ final class PokemonDetailViewController: UIViewController {
     }
     
     // MARK: - Update Methods
-    
+
     private func updateInterface(with data: PokemonDetail) {
-        nameLabel.text = data.name
-        heightLabel.text = "Height: \(data.height)"
-        weightLabel.text = "Weight: \(data.weight)"
-        
-        let typesText = data.types.map { $0.getTitle() }.joined(separator: ", ")
-        typesLabel.text = "Types: \(typesText)"
-        
-        if let primaryType = data.types.first {
-            view.backgroundColor = primaryType.getColor()
+        DispatchQueue.main.async { [weak self] in
+            self?.nameLabel.text = data.name.capitalized
+            self?.heightLabel.text = "Height: \(data.height.formattedHeight())"
+            self?.weightLabel.text = "Weight: \(data.weight.formattedWeight())"
+            self?.pokemonImageView.loadImage(urlString: data.image)
+            let typesText = data.types.map { $0.getTitle() }.joined(separator: ", ")
+            self?.typesLabel.text = "Types: \(typesText)"
+            
+            if let primaryType = data.types.first {
+                self?.view.backgroundColor = primaryType.getColor()
+            }
         }
     }
     
@@ -130,12 +130,14 @@ final class PokemonDetailViewController: UIViewController {
     func prepareForNavigation(with navigationData: PokemonDetailNavigationData) {
         viewModel.prepareForNavigation(with: navigationData)
     }
-    
 }
 
 // MARK: - PokemonDetailDelegate
 
-extension PokemonDetailViewController: PokemonDetailDelegate {}
+extension PokemonDetailViewController: PokemonDetailDelegate {
+    func didFetchPokemonDetail(_ detail: PokemonDetail) {
+        updateInterface(with: detail)
+    }
+}
 
-// Additional classes and protocols (PokemonDetailViewModel, PokemonDetailRouter, PokemonDetailNavigationData, PokemonDetailDelegate)
-// would need to be defined based on your specific project requirements.
+

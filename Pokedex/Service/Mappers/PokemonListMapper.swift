@@ -25,3 +25,22 @@ struct PokemonListMapper {
         }
     }
 }
+
+struct PokemonDetailMapper {
+    private let mapper: HttpRequestMapperProtocol
+    
+    init(mapper: HttpRequestMapperProtocol = HttpRequestMaper()) {
+        self.mapper = mapper
+    }
+    
+    func map(result: NetworkResult) -> Result<PokemonDetail, ApiError> {
+        let mappedResult: Result<PokemonDetailResponse, ApiError> = mapper.map(result: result)
+        
+        switch mappedResult {
+        case .success(let pokemonResult):
+            return .success(pokemonResult.toDomainModel())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+}

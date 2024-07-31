@@ -8,7 +8,7 @@
 import Foundation
 
 typealias FetchPokemonListResult = Result<[Pokemon], ApiError>
-typealias FetchPokemonDetailResult = Result<PokemonDetailResponse, ApiError>
+typealias FetchPokemonDetailResult = Result<PokemonDetail, ApiError>
 
 protocol PokemonServiceProtocol {
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void)
@@ -16,11 +16,17 @@ protocol PokemonServiceProtocol {
 
 final class PokemonService: PokemonServiceProtocol {
     let client: HTTPClient
-    let mapper: PokemonListMapper
+    let pokemonListMapper: PokemonListMapper
+    let pokemonDetailMapper: PokemonDetailMapper
     
-    init(client: HTTPClient = URLSession.shared, mapper: PokemonListMapper = PokemonListMapper()) {
+    init(
+        client: HTTPClient = URLSession.shared,
+        pokemonListMapper: PokemonListMapper = PokemonListMapper(),
+        pokemonDetailMapper: PokemonDetailMapper = PokemonDetailMapper()
+    ) {
         self.client = client
-        self.mapper = mapper
+        self.pokemonListMapper = pokemonListMapper
+        self.pokemonDetailMapper = pokemonDetailMapper
     }
     
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void) {
@@ -30,8 +36,8 @@ final class PokemonService: PokemonServiceProtocol {
             return
         }
         
-        client.perform(request: request) { [mapper] result in
-            completion(mapper.map(result: result))
+        client.perform(request: request) { [pokemonListMapper] result in
+            completion(pokemonListMapper.map(result: result))
         }
     }
     
@@ -41,8 +47,8 @@ final class PokemonService: PokemonServiceProtocol {
             return
         }
         
-        client.perform(request: request) { result in
-            let mappedResult: Result<PokemonDetailResponse,ApiError> = HttpRequestMaper().map(result: result)
+        client.perform(request: request) { [pokemonDetailMapper] result in
+            let mappedResult = pokemonDetailMapper.map(result: result)
             completion(mappedResult)
         }
     }

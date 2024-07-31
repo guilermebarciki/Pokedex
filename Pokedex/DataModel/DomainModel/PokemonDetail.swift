@@ -9,10 +9,12 @@ import Foundation
 import UIKit
 
 struct PokemonDetail {
+    let id: Int
     let name: String
-    let height: Int
-    let weight: Int
+    let height: Double
+    let weight: Double
     let types: [PokemonType]
+    let image: String
 }
 
 enum PokemonType: String, Codable {
@@ -36,7 +38,7 @@ enum PokemonType: String, Codable {
     case fairy
     
     func getTitle() -> String {
-            return self.rawValue.capitalizingFirstLetter()
+            return self.rawValue.capitalized
         }
     
     func getColor() -> UIColor {
