@@ -36,18 +36,19 @@ final class PokemonListViewController: UIViewController {
         setupInterface()
         setupConstraints()
         setupSearchController()
+        setupTapGesture()
         viewModel.fetchAllPokemon()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Ensure search bar is visible initially
+        tableView.reloadData()
         navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Allow search bar to hide when scrolling after the view appears
         navigationItem.hidesSearchBarWhenScrolling = true
     }
     
@@ -57,6 +58,11 @@ final class PokemonListViewController: UIViewController {
         viewModel.setPresentationStatus(index: sender.selectedSegmentIndex)
         tableView.reloadData()
     }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
 }
 
 // MARK: - Setup Methods
@@ -65,6 +71,7 @@ extension PokemonListViewController {
     
     private func setupInterface() {
         view.backgroundColor = .white
+        title = "Pokedex"
         view.addSubview(tableView)
         setupTableHeaderView()
     }
@@ -88,6 +95,13 @@ extension PokemonListViewController {
         headerView.searchBar.delegate = self
         definesPresentationContext = true
     }
+    
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
 }
 
 // MARK: - Navigation
@@ -99,17 +113,21 @@ extension PokemonListViewController {
     }
 }
 
+
 // MARK: - UISearchBarDelegate
 
 extension PokemonListViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.updateSearchQuery(searchText)
     }
+    
 }
 
 // MARK: - UITableViewDataSource
 
 extension PokemonListViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.pokemonCount()
     }
@@ -120,7 +138,8 @@ extension PokemonListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.configure(pokemon: pokemon, presentationMode: viewModel.getPresentationStatus())
+        let isCaught = viewModel.isPokemonCaught(index: indexPath.row)
+        cell.configure(pokemon: pokemon, isCaught: isCaught, presentationMode: viewModel.getPresentationStatus())
         return cell
     }
 }
@@ -129,8 +148,9 @@ extension PokemonListViewController: UITableViewDataSource {
 
 extension PokemonListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let pokemon = viewModel.pokemon(at: indexPath.row)
-//        router?.navigateToPokemonDetail(with: pokemon)
+        guard let pokemon = viewModel.pokemon(at: indexPath.row) else { return }
+        //        router?.navigateToPokemonDetail(with: pokemon)
+        router?.navigateToPokemonDetail(with: pokemon.name)
     }
 }
 

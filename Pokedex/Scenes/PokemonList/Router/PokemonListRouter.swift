@@ -41,8 +41,9 @@ extension PokemonListRouter {
 
 extension PokemonListRouter {
     
-    func navigateToPokemonDetail() {
+    func navigateToPokemonDetail(with name: PokemonDetailNavigationData) {
         let pokemonDetail = PokemonDetailViewController()
+        pokemonDetail.prepareForNavigation(with: name)
         navigationController.pushViewController(pokemonDetail, animated: true)
     }
     

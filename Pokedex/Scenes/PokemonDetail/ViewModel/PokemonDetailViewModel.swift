@@ -9,7 +9,7 @@ import Foundation
 
 protocol PokemonDetailDelegate: AnyObject {}
 
-typealias PokemonDetailNavigationData = Any
+typealias PokemonDetailNavigationData = String
 
 final class PokemonDetailViewModel {
     
@@ -32,11 +32,21 @@ final class PokemonDetailViewModel {
 
 extension PokemonDetailViewModel {
     
-    func prepareForNavigation(with navigationData: PokemonDetailNavigationData) {}
+    func prepareForNavigation(with pokemonName: PokemonDetailNavigationData) {
+        fetchPokemonDetail(with: pokemonName)
+    }
     
 }
     
 
 // MARK: - Fetch Methods
 
-extension PokemonDetailViewModel {}
+extension PokemonDetailViewModel {
+    
+    func fetchPokemonDetail(with name: String) {
+        PokemonService().fetchPokemonDetail(with: name) { result in
+            print(result)
+        }
+    }
+    
+}

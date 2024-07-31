@@ -19,7 +19,7 @@ struct PokemonListMapper {
         
         switch mappedResult {
         case .success(let pokemonResult):
-            return .success(pokemonResult.results)
+            return .success(pokemonResult.results.map{ $0.toDomainModel() })
         case .failure(let error):
             return .failure(error)
         }

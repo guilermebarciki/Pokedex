@@ -8,15 +8,29 @@
 import Foundation
 
 enum PokemonListProvider {
-    case GetPokemonList
+    case getPokemonList
 }
 
 extension PokemonListProvider: ApiEndpoint {
-    var method: String {
-        "GET"
+    var baseUrlString: String {
+        return "https://pokeapi.co"
     }
     
-    var urlString: String {
-        return "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151"
+    var path: String {
+        switch self {
+        case .getPokemonList:
+            return "/api/v2/pokemon"
+        }
+    }
+    
+    var method: String {
+        return "GET"
+    }
+    
+    var queryItems: [URLQueryItem] {
+        switch self {
+        case .getPokemonList:
+            return [URLQueryItem(name: "offset", value: "0"), URLQueryItem(name: "limit", value: "151")]
+        }
     }
 }

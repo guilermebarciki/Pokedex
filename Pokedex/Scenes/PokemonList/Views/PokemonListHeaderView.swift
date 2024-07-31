@@ -19,7 +19,7 @@ final class PokemonListHeaderView: UIView {
     }()
     
     let segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ["All", "Catched"])
+        let segmentedControl = UISegmentedControl(items: ["All", "Caught"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl

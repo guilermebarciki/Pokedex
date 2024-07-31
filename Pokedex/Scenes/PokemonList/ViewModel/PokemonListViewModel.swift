@@ -9,7 +9,7 @@ import Foundation
 
 enum PresentationMode {
     case all
-    case catched
+    case caught
 }
 
 protocol PokemonListDelegate: AnyObject {
@@ -59,6 +59,7 @@ final class PokemonListViewModel {
     }
     
     private func filterPokemon() {
+        filteredPokemon = allPokemon
         if searchQuery.isEmpty {
             filteredPokemon = allPokemon
         } else {
@@ -82,11 +83,18 @@ final class PokemonListViewModel {
     }
     
     func setPresentationStatus(index: Int) {
-        presentationMode = index == 0 ? .all : .catched
+        presentationMode = index == 0 ? .all : .caught
     }
     
     func getPresentationStatus() -> PresentationMode {
         return presentationMode
+    }
+    
+    func isPokemonCaught(index: Int) -> Bool {
+        guard let pokemonName = allPokemon.safeFind(at: index)?.name else {
+            return false
+        }
+        return caughtPokemons.contains(pokemonName)
     }
     
 }
@@ -97,29 +105,5 @@ extension PokemonListViewModel {
     func prepareForNavigation(with navigationData: PokemonListNavigationData) {}
 }
 
-// MARK: - Pokemon Model
-
-struct PokemonListResponse: Decodable {
-    let results: [Pokemon]
-}
-
-struct Pokemon: Decodable {
-    let name: String
-    let url: String
-    
-    var number: Int {
-        return url.extractPokemonNumber() ?? 0
-    }
-    
-    var isCactched: Bool {
-        false
-    }
-    
-    var pokemonImage: String {
-        print("name: \(name) url: \(url) number: \(number)")
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(number).png"
-
-    }
-}
 
 

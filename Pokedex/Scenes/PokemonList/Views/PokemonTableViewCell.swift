@@ -80,19 +80,16 @@ final class PokemonTableViewCell: UITableViewCell {
     
     // MARK: - Configuration Method
     
-    func configure(pokemon: Pokemon, presentationMode: PresentationMode) {
-        
+    func configure(pokemon: Pokemon, isCaught: Bool, presentationMode: PresentationMode) {
         numberLabel.text = "No. \(pokemon.number)"
         
-        if pokemon.isCactched || presentationMode == .all {
+        if isCaught || presentationMode == .all {
             pokemonImageView.loadImage(urlString: pokemon.pokemonImage, placeholder: UIImage(named: "pokeball"))
             nameLabel.text = pokemon.name
         } else {
             pokemonImageView.image = UIImage(named: "pokeball")
             nameLabel.text = "????"
         }
-        
-        
     }
     
 }
