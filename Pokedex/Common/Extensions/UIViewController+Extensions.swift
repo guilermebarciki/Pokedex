@@ -38,4 +38,14 @@ extension UIViewController {
     func hideLoadingIndicator() {
         activityIndicator?.stopAnimating()
     }
+    
+    func showAlert(title: String, message: String, buttonTitle: String, action: (() -> Void)?) {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
+                action?()
+            }
+            alertController.addAction(alertAction)
+            present(alertController, animated: true, completion: nil)
+        }
+    
 }

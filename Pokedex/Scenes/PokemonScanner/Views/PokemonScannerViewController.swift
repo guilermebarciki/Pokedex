@@ -106,7 +106,8 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
     func didFinishClassification(_ classification: (String, Float)) {
         let message = String(format: "It's a %@ with confidence %.2f%%", classification.0, classification.1 * 100)
         #warning("aqui persiste")
-        caughtPokemons.insert(classification.0.lowercased())
+//        caughtPokemons.insert(classification.0.lowercased())
+        UserDefaultsPokemonDataPersistence().savePokemonName(classification.0)
         let alertController = UIAlertController(title: "Match Found", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)

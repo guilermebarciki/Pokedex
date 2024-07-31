@@ -94,7 +94,7 @@ final class PokemonListViewModel {
         guard let pokemonName = allPokemon.safeFind(at: index)?.name else {
             return false
         }
-        return caughtPokemons.contains(pokemonName)
+        return UserDefaultsPokemonDataPersistence().isPokemonNameSaved(pokemonName)
     }
     
 }

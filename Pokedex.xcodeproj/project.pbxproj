@@ -59,6 +59,7 @@
 		B2F7965A2C5ACBCB004701EF /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796592C5ACBCB004701EF /* Double+Extensions.swift */; };
 		B2F7965D2C5ACCB1004701EF /* TransparentAndRoudedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7965C2C5ACCB1004701EF /* TransparentAndRoudedStackView.swift */; };
 		B2F7965F2C5AD209004701EF /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F7965E2C5AD209004701EF /* UIViewController+Extensions.swift */; };
+		B2F796632C5AD865004701EF /* PokemonDataPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F796622C5AD865004701EF /* PokemonDataPersistenceProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		B2F796592C5ACBCB004701EF /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		B2F7965C2C5ACCB1004701EF /* TransparentAndRoudedStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentAndRoudedStackView.swift; sourceTree = "<group>"; };
 		B2F7965E2C5AD209004701EF /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		B2F796622C5AD865004701EF /* PokemonDataPersistenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDataPersistenceProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 		B24619A02C5821B900A9AF23 /* Pokedex */ = {
 			isa = PBXGroup;
 			children = (
+				B2F796602C5AD839004701EF /* DataPersistence */,
 				B2F796482C59B777004701EF /* DataModel */,
 				B2F795E42C583C59004701EF /* Service */,
 				B2F795DD2C583BE6004701EF /* Common */,
@@ -552,6 +555,14 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		B2F796602C5AD839004701EF /* DataPersistence */ = {
+			isa = PBXGroup;
+			children = (
+				B2F796622C5AD865004701EF /* PokemonDataPersistenceProtocol.swift */,
+			);
+			path = DataPersistence;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -686,6 +697,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2F795E82C583CC2004701EF /* ApiEndpoint.swift in Sources */,
+				B2F796632C5AD865004701EF /* PokemonDataPersistenceProtocol.swift in Sources */,
 				B2F795B72C582820004701EF /* PokemonListRouter.swift in Sources */,
 				B2F796562C5ABD9B004701EF /* PokemonDetail.swift in Sources */,
 				B2F796472C5993FA004701EF /* PokemonClassifier2.mlmodel in Sources */,

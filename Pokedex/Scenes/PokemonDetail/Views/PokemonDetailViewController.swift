@@ -126,12 +126,25 @@ final class PokemonDetailViewController: UIViewController {
 // MARK: - PokemonDetailDelegate
 
 extension PokemonDetailViewController: PokemonDetailDelegate {
+    
+    func didFail(errorMessage: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
+            self?.showAlert(title: "Error", message: errorMessage, buttonTitle: "Ok", action: {
+                self?.navigationController?.popViewController(animated: true)
+            })
+        }
+    }
+    
+    
     func didFetchPokemonDetail(_ detail: PokemonDetail) {
         DispatchQueue.main.async { [weak self] in
+            self?.dismiss(animated: false)
             self?.hideLoadingIndicator()
             self?.updateInterface(with: detail)
         }
     }
+    
 }
 
 

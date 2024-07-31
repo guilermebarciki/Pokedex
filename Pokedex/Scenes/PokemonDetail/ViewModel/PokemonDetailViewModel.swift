@@ -9,6 +9,7 @@ import Foundation
 
 protocol PokemonDetailDelegate: AnyObject {
     func didFetchPokemonDetail(_ detail: PokemonDetail)
+    func didFail(errorMessage: String)
 }
 
 typealias PokemonDetailNavigationData = String
@@ -45,7 +46,7 @@ extension PokemonDetailViewModel {
             case .success(let pokemonDetail):
                 self?.delegate?.didFetchPokemonDetail(pokemonDetail)
             case .failure(let error):
-                print("Failed to fetch Pokémon details: \(error)")
+                self?.delegate?.didFail(errorMessage: error.localizedDescription)
             }
         }
     }
