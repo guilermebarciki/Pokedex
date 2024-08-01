@@ -22,6 +22,7 @@ final class PokemonScannerViewModel {
     private let requestProvider: ClassificationRequestProvider
     private let dataPersistence: PokemonDataPersistence
     private let imageProcessor: ImageProcessor
+    private let visionRequestHandlerFactory: ImageRequestHandlerFactory
     
     weak var delegate: PokemonScannerViewModelDelegate?
     
@@ -29,12 +30,14 @@ final class PokemonScannerViewModel {
         delegate: PokemonScannerViewModelDelegate,
         requestProvider: ClassificationRequestProvider = MLModelRequestProvider(),
         dataPersistence: PokemonDataPersistence = CoreDataPokemonDataPersistence(),
-        imageProcessor: ImageProcessor = DefaultImageProcessor()
+        imageProcessor: ImageProcessor = DefaultImageProcessor(),
+        visionRequestHandlerFactory: ImageRequestHandlerFactory = VisionImageRequestHandlerFactory()
     ) {
         self.delegate = delegate
         self.requestProvider = requestProvider
         self.dataPersistence = dataPersistence
         self.imageProcessor = imageProcessor
+        self.visionRequestHandlerFactory = visionRequestHandlerFactory
     }
     
     func updateClassifications(for image: UIImage) {
@@ -49,8 +52,8 @@ final class PokemonScannerViewModel {
             return
         }
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
+        DispatchQueue.global(qos: .userInitiated).async { [visionRequestHandlerFactory] in
+            let handler = visionRequestHandlerFactory.makeImageRequestHandler(ciImage: ciImage, orientation: orientation)
             do {
                 try handler.perform([classificationRequest])
             } catch {
