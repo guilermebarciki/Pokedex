@@ -41,28 +41,41 @@ class MockImageProcessor: ImageProcessor {
 }
 
 
-//import Vision
 
-//class MockImageRequestHandler: ImageRequestHandler {
-//    var shouldThrowError = false
-//    
-//    func perform(_ requests: [VNRequest]) throws {
-//        if shouldThrowError {
-//            throw NSError(domain: "test", code: 1, userInfo: nil)
-//        }
-//        for request in requests {
-//            request.results = [VNClassificationObservation(identifier: "Pikachu", confidence: 0.95)]
-//        }
-//    }
-//}
+import Vision
 
+import Vision
 
-//class MockImageRequestHandlerFactory: ImageRequestHandlerFactory {
-//    var mockRequestHandler: MockImageRequestHandler?
-//    
-//    func makeImageRequestHandler(ciImage: CIImage, orientation: CGImagePropertyOrientation) -> ImageRequestHandler {
-//        return mockRequestHandler ?? MockImageRequestHandler()
-//    }
-//}
+class MockImageRequestHandler: ImageRequestHandler {
+    var shouldThrowError = false
+    var testResults: [VNClassificationObservation] = [VNClassificationObservation.makeMockObservation(identifier: "Pikachu", confidence: 0.95)]
+    
+    func perform(_ requests: [VNRequest]) -> Result<[VNRequest], Error> {
+        if shouldThrowError {
+            return .failure(NSError(domain: "test", code: 1, userInfo: nil))
+        }
+        for request in requests {
+            (request as? VNCoreMLRequest)?.setValue(testResults, forKey: "results")
+        }
+        return .success(requests)
+    }
+}
 
 
+class MockImageRequestHandlerFactory: ImageRequestHandlerFactory {
+    var mockRequestHandler: MockImageRequestHandler?
+    
+    func makeImageRequestHandler(ciImage: CIImage, orientation: CGImagePropertyOrientation) -> ImageRequestHandler {
+        return mockRequestHandler ?? MockImageRequestHandler()
+    }
+}
+
+
+extension VNClassificationObservation {
+    static func makeMockObservation(identifier: String, confidence: VNConfidence) -> VNClassificationObservation {
+        let observation = VNClassificationObservation()
+        observation.setValue(identifier, forKey: "identifier")
+        observation.setValue(confidence, forKey: "confidence")
+        return observation
+    }
+}

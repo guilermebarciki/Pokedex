@@ -52,13 +52,19 @@ final class PokemonScannerViewModel {
             return
         }
         
-        DispatchQueue.global(qos: .userInitiated).async { [visionRequestHandlerFactory] in
-            let handler = visionRequestHandlerFactory.makeImageRequestHandler(ciImage: ciImage, orientation: orientation)
-            do {
-                try handler.perform([classificationRequest])
-            } catch {
-                self.delegate?.didFailClassification(error: .classificationFailed(error.localizedDescription))
-            }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            let handler = self.visionRequestHandlerFactory.makeImageRequestHandler(ciImage: ciImage, orientation: orientation)
+            let result = handler.perform([classificationRequest])
+
+                switch result {
+                case .success(let requests):
+                    if let request = requests.first {
+                        self.processClassifications(for: request, error: nil)
+                    }
+                case .failure(let error):
+                    self.delegate?.didFailClassification(error: .classificationFailed(error.localizedDescription))
+                }
         }
     }
     

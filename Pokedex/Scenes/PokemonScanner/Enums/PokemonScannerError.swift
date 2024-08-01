@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PokemonScannerError: Error {
+enum PokemonScannerError: Error, Equatable {
     case modelLoadingFailed
     case classificationFailed(String)
     case imageProcessingFailed
@@ -25,4 +25,17 @@ enum PokemonScannerError: Error {
             return "No Pokémon recognized."
         }
     }
+    
+    static func ==(lhs: PokemonScannerError, rhs: PokemonScannerError) -> Bool {
+            switch (lhs, rhs) {
+            case (.modelLoadingFailed, .modelLoadingFailed),
+                 (.imageProcessingFailed, .imageProcessingFailed),
+                 (.nothingRecognized, .nothingRecognized):
+                return true
+            case (.classificationFailed(let lhsMessage), .classificationFailed(let rhsMessage)):
+                return lhsMessage == rhsMessage
+            default:
+                return false
+            }
+        }
 }

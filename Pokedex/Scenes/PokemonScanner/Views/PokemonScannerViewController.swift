@@ -52,7 +52,7 @@ final class PokemonScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .white
         setupInterface()
         setupConstraints()
         setupCamera()
@@ -60,8 +60,8 @@ final class PokemonScannerViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.global().async { [captureSession] in
-            captureSession.startRunning()
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.captureSession.startRunning()
         }
     }
     

@@ -9,7 +9,7 @@ import Vision
 import CoreImage
 
 protocol ImageRequestHandler {
-    func perform(_ requests: [VNRequest]) throws
+    func perform(_ requests: [VNRequest]) -> Result<[VNRequest], Error>
 }
 
 class VisionImageRequestHandler: ImageRequestHandler {
@@ -19,7 +19,12 @@ class VisionImageRequestHandler: ImageRequestHandler {
         self.handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
     }
     
-    func perform(_ requests: [VNRequest]) throws {
-        try handler.perform(requests)
+    func perform(_ requests: [VNRequest]) -> Result<[VNRequest], Error> {
+        do {
+            try handler.perform(requests)
+            return .success(requests)
+        } catch {
+            return .failure(error)
+        }
     }
 }
