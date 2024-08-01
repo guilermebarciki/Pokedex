@@ -30,7 +30,6 @@ class CoreDataPokemonDataPersistence: PokemonDataPersistence {
             let count = try context.count(for: fetchRequest)
             return count > 0
         } catch {
-            print("Failed to fetch entity: \(error)")
             return false
         }
     }
@@ -40,7 +39,6 @@ class CoreDataPokemonDataPersistence: PokemonDataPersistence {
             try context.save()
         } catch {
             context.rollback()
-            print("Failed to save context: \(error)")
         }
     }
 }

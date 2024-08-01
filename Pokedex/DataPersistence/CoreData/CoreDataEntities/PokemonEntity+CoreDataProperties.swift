@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension PokemonEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<PokemonEntity> {

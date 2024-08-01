@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+    
     func extractPokemonNumber() -> Int? {
         let components = self.split(separator: "/")
         if let lastComponent = components.last, lastComponent.isEmpty, components.count > 1 {

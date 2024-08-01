@@ -11,4 +11,3 @@ protocol PokemonDataPersistence {
     func savePokemonName(_ name: String)
     func isPokemonNameSaved(_ name: String) -> Bool
 }
-

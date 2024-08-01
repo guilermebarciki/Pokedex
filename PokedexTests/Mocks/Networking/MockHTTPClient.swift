@@ -8,7 +8,6 @@
 import Foundation
 @testable import Pokedex
 
-// Mock para HTTPClient
 final class MockHTTPClient: HTTPClient {
     var result: NetworkResult?
     
