@@ -114,11 +114,13 @@ final class PokemonScannerViewController: UIViewController {
 
 extension PokemonScannerViewController: PokemonScannerViewModelDelegate {
     
-    func didFinishClassification(_ classification: (String, Float)) {
+    func didFinishClassification(identifier: String, confidence: Float) {
         DispatchQueue.main.async { [weak self] in
             self?.hideLoadingIndicator()
-            let message = String(format: "It's a %@ with confidence %.2f%%", classification.0, classification.1 * 100)
-            self?.showAlert(title: "Match Found", message: message)
+            let message = String(format: "It's a %@ with confidence %.2f%%", identifier, confidence * 100)
+            self?.showAlert(title: "Match Found", message: message, action: {
+                self?.viewModel.savePokemon(pokemonName: identifier)
+            })
         }
     }
     

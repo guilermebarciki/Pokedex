@@ -13,19 +13,28 @@ import Vision
 import ImageIO
 
 protocol PokemonScannerViewModelDelegate: AnyObject {
-    func didFinishClassification(_ classification: (String, Float))
+    func didFinishClassification(identifier: String, confidence: Float)
     func didFailClassification(error: PokemonScannerError)
 }
 
 final class PokemonScannerViewModel {
     
     private let requestProvider: ClassificationRequestProvider
+    private let dataPersistence: PokemonDataPersistence
+    private let imageProcessor: ImageProcessor
     
     weak var delegate: PokemonScannerViewModelDelegate?
     
-    init(delegate: PokemonScannerViewModelDelegate, requestProvider: ClassificationRequestProvider = MLModelRequestProvider()) {
+    init(
+        delegate: PokemonScannerViewModelDelegate,
+        requestProvider: ClassificationRequestProvider = MLModelRequestProvider(),
+        dataPersistence: PokemonDataPersistence = CoreDataPokemonDataPersistence(),
+        imageProcessor: ImageProcessor = DefaultImageProcessor()
+    ) {
         self.delegate = delegate
         self.requestProvider = requestProvider
+        self.dataPersistence = dataPersistence
+        self.imageProcessor = imageProcessor
     }
     
     func updateClassifications(for image: UIImage) {
@@ -34,9 +43,8 @@ final class PokemonScannerViewModel {
             return
         }
         
-        guard
-            let ciImage = CIImage(image: image),
-            let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))else {
+        let orientation = imageProcessor.getCGImagePropertyOrientation(from: image)
+        guard let ciImage = imageProcessor.createCIImage(from: image) else {
             delegate?.didFailClassification(error: .imageProcessingFailed)
             return
         }
@@ -49,6 +57,10 @@ final class PokemonScannerViewModel {
                 self.delegate?.didFailClassification(error: .classificationFailed(error.localizedDescription))
             }
         }
+    }
+    
+    func savePokemon(pokemonName: String) {
+        CoreDataPokemonDataPersistence().savePokemonName(pokemonName)
     }
     
     private func processClassifications(for request: VNRequest, error: Error?) {
@@ -67,16 +79,10 @@ final class PokemonScannerViewModel {
             return
         }
         
-        let topClassifications = classifications.prefix(2)
         let identifier = classifications.first?.identifier ?? ""
         let confidence = classifications.first?.confidence ?? 0.0
-        let description = (identifier, confidence)
         
-        savePokemon(pokemonName: identifier)
-        delegate?.didFinishClassification(description)
+        delegate?.didFinishClassification(identifier: identifier, confidence: confidence)
     }
     
-    private func savePokemon(pokemonName: String) {
-        CoreDataPokemonDataPersistence().savePokemonName(pokemonName)
-    }
 }
