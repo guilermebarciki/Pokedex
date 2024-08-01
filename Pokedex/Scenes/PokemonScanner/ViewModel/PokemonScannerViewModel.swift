@@ -14,7 +14,7 @@ import ImageIO
 
 protocol PokemonScannerViewModelDelegate: AnyObject {
     func didFinishClassification(_ classification: (String, Float))
-    func didFailClassification(errorMessage: String)
+    func didFailClassification(error: PokemonScannerError)
 }
 
 final class PokemonScannerViewModel {
@@ -35,44 +35,47 @@ final class PokemonScannerViewModel {
             request.imageCropAndScaleOption = .centerCrop
             return request
         } catch {
-            fatalError("Failed to Load Pokemon ML Model: \(error)")
+            fatalError("Failed to load Pokemon ML Model: \(error)")
         }
     }()
     
     func updateClassifications(for image: UIImage) {
         let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))
-        guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
+        guard let ciImage = CIImage(image: image) else {
+            delegate?.didFailClassification(error: .imageProcessingFailed)
+            return
+        }
         
         DispatchQueue.global(qos: .userInitiated).async {
             let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation!)
             do {
                 try handler.perform([self.classificationRequest])
             } catch {
-                print("Failed to perform classification.\n\(error.localizedDescription)")
+                self.delegate?.didFailClassification(error: .classificationFailed(error.localizedDescription))
             }
         }
     }
     
     private func processClassifications(for request: VNRequest, error: Error?) {
-        guard
-            let results = request.results,
-            let classifications = results as? [VNClassificationObservation] else {
-            delegate?.didFailClassification(errorMessage: "UNABLE TO CLASSIFY IMAGE \n \(error?.localizedDescription)")
+        if let error = error {
+            delegate?.didFailClassification(error: .classificationFailed(error.localizedDescription))
             return
         }
+        
+        guard let results = request.results, let classifications = results as? [VNClassificationObservation] else {
+            delegate?.didFailClassification(error: .classificationFailed(error?.localizedDescription ?? "Unknown error"))
+            return
+        }
+        
         guard !classifications.isEmpty else {
-            delegate?.didFailClassification(errorMessage: "NOTHING RECOGNIZED")
+            delegate?.didFailClassification(error: .nothingRecognized)
             return
         }
         
         let topClassifications = classifications.prefix(2)
-        let descriptions = topClassifications.map { classification in
-            return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
-        }
         let description = (classifications.first!.identifier, classifications.first!.confidence)
         savePokemon(pokemonName: classifications.first!.identifier)
         delegate?.didFinishClassification(description)
-        
     }
     
     private func savePokemon(pokemonName: String) {

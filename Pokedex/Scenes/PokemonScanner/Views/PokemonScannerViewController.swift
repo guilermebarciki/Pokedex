@@ -106,7 +106,7 @@ final class PokemonScannerViewController: UIViewController {
         
         capturePhotoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
-  
+    
 }
 
 
@@ -122,10 +122,9 @@ extension PokemonScannerViewController: PokemonScannerViewModelDelegate {
         }
     }
     
-    func didFailClassification(errorMessage: String) {
-        DispatchQueue.main.async { [weak self] in
-            self?.showAlert(message: errorMessage)
-        }
+    func didFailClassification(error: PokemonScannerError) {
+        hideLoadingIndicator()
+        showAlert(message: error.localizedDescription)
     }
     
 }
