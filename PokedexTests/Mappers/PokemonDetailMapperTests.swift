@@ -1,5 +1,5 @@
 //
-//  PokemonListMapperTests.swift
+//  PokemonDetailMapperTests.swift
 //  PokedexTests
 //
 //  Created by Guilerme Barciki   on 31/07/24.
@@ -8,15 +8,15 @@
 import XCTest
 @testable import Pokedex
 
-final class PokemonListMapperTests: XCTestCase {
+final class PokemonDetailMapperTests: XCTestCase {
     
-    var mapper: PokemonListMapper!
+    var mapper: PokemonDetailMapper!
     var mockHttpRequestMapper: MockHttpRequestMapper!
     
     override func setUp() {
         super.setUp()
         mockHttpRequestMapper = MockHttpRequestMapper()
-        mapper = PokemonListMapper(mapper: mockHttpRequestMapper)
+        mapper = PokemonDetailMapper(mapper: mockHttpRequestMapper)
     }
     
     override func tearDown() {
@@ -25,19 +25,27 @@ final class PokemonListMapperTests: XCTestCase {
         super.tearDown()
     }
     
-    func testMap_whenNetworkResultIsSuccessful_shouldReturnPokemonList() {
+    func testMap_whenNetworkResultIsSuccessful_shouldReturnPokemonDetail() {
         // Given
-        let pokemonListResponse = PokemonListResponse(results: [PokemonResponse(name: "Pikachu", url: "https://example.com/pikachu")])
-        mockHttpRequestMapper.mockResult = Result<PokemonListResponse, ApiError>.success(pokemonListResponse)
+        let pokemonDetailResponse = PokemonDetailResponse(
+            name: "Pikachu",
+            height: 4,
+            weight: 60,
+            id: 25,
+            types: [TypeElementResponse(type: TypeInfoResponse(name: "electric"))]
+        )
+        mockHttpRequestMapper.mockResult = Result<PokemonDetailResponse, ApiError>.success(pokemonDetailResponse)
         
         // When
         let result = mapper.map(result: .responseData(data: Data(), response: HTTPURLResponse()))
         
         // Then
         switch result {
-        case .success(let pokemonList):
-            XCTAssertEqual(pokemonList.count, 1)
-            XCTAssertEqual(pokemonList.first?.name, "Pikachu")
+        case .success(let pokemonDetail):
+            XCTAssertEqual(pokemonDetail.name, "Pikachu")
+            XCTAssertEqual(pokemonDetail.height, 0.4)
+            XCTAssertEqual(pokemonDetail.weight, 6.0)
+            XCTAssertEqual(pokemonDetail.types.first, .electric)
         case .failure:
             XCTFail("Expected success, got \(result) instead")
         }
@@ -45,7 +53,7 @@ final class PokemonListMapperTests: XCTestCase {
     
     func testMap_whenNetworkResultFails_shouldReturnError() {
         // Given
-        mockHttpRequestMapper.mockResult = Result<PokemonListResponse, ApiError>.failure(.serverError(status: 500))
+        mockHttpRequestMapper.mockResult = Result<PokemonDetailResponse, ApiError>.failure(.serverError(status: 500))
         
         // When
         let result = mapper.map(result: .responseData(data: Data(), response: HTTPURLResponse()))
@@ -59,4 +67,3 @@ final class PokemonListMapperTests: XCTestCase {
         }
     }
 }
-
