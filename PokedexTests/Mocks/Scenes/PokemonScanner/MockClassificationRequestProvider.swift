@@ -22,7 +22,6 @@ class MockClassificationRequestProvider: ClassificationRequestProvider {
 }
 
 @testable import Pokedex
-//import Vision
 
 import UIKit
 import CoreImage

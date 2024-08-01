@@ -39,7 +39,6 @@ class CustomTabBarController: UITabBarController {
             tabBar.scrollEdgeAppearance = appearance
         }
         
-        // Add drop shadow
         tabBar.layer.shadowColor = UIColor.black.cgColor
         tabBar.layer.shadowOpacity = 0.25
         tabBar.layer.shadowOffset = CGSize(width: 0, height: 2)

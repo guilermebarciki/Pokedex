@@ -17,7 +17,7 @@ class CoreDataManager {
         persistentContainer = NSPersistentContainer(name: "Pokedex")
         persistentContainer.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                #warning("TODO: handle error")
             }
         }
     }
@@ -33,7 +33,7 @@ class CoreDataManager {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                #warning("TODO: handle error")
             }
         }
     }
