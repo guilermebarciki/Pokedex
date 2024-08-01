@@ -69,7 +69,7 @@ final class PokemonScannerViewModel {
     }
     
     func savePokemon(pokemonName: String) {
-        CoreDataPokemonDataPersistence().savePokemonName(pokemonName)
+        dataPersistence.savePokemonName(pokemonName)
     }
     
     private func processClassifications(for request: VNRequest, error: Error?) {

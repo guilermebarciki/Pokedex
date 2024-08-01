@@ -138,6 +138,16 @@ class PokemonScannerViewModelTests: XCTestCase {
         }
     }
     
+    func testSavePokemon_shouldSavePokemonName() {
+           // Given
+           let pokemonName = "Pikachu"
+           
+           // When
+           sut.savePokemon(pokemonName: pokemonName)
+           
+           // Then
+           XCTAssertTrue(mockDataPersistence.isPokemonNameSaved(pokemonName))
+       }
     
     private func makeRequest() -> VNCoreMLRequest  {
         let model = try! VNCoreMLModel(for: PokemonClassifier2().model)
