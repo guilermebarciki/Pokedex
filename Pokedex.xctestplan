@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "5274E148-EB33-49D3-8226-323EACF3AAC0",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Pokedex.xcodeproj",
+      "identifier" : "B246199D2C5821B900A9AF23",
+      "name" : "Pokedex"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Pokedex.xcodeproj",
+        "identifier" : "B24619B62C5821BC00A9AF23",
+        "name" : "PokedexTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Pokedex.xcodeproj",
+        "identifier" : "B24619C02C5821BC00A9AF23",
+        "name" : "PokedexUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
