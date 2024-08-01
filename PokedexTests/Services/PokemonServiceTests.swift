@@ -10,7 +10,7 @@ import XCTest
 
 class PokemonServiceTests: XCTestCase {
     
-    var service: PokemonService!
+    var sut: PokemonService!
     var mockClient: MockHTTPClient!
     var mockListMapper: MockPokemonListMapper!
     var mockDetailMapper: MockPokemonDetailMapper!
@@ -20,11 +20,11 @@ class PokemonServiceTests: XCTestCase {
         mockClient = MockHTTPClient()
         mockListMapper = MockPokemonListMapper()
         mockDetailMapper = MockPokemonDetailMapper()
-        service = PokemonService(client: mockClient, pokemonListMapper: mockListMapper, pokemonDetailMapper: mockDetailMapper)
+        sut = PokemonService(client: mockClient, pokemonListMapper: mockListMapper, pokemonDetailMapper: mockDetailMapper)
     }
     
     override func tearDown() {
-        service = nil
+        sut = nil
         mockClient = nil
         mockListMapper = nil
         mockDetailMapper = nil
@@ -42,7 +42,7 @@ class PokemonServiceTests: XCTestCase {
         let expectation = self.expectation(description: "Completion handler called")
         
         // When
-        service.fetchPokemonList { result in
+        sut.fetchPokemonList { result in
             // Then
             switch result {
             case .success(let fetchedPokemonList):
@@ -66,7 +66,7 @@ class PokemonServiceTests: XCTestCase {
         let expectation = self.expectation(description: "Completion handler called")
         
         // When
-        service.fetchPokemonList { result in
+        sut.fetchPokemonList { result in
             // Then
             switch result {
             case .success:
@@ -91,7 +91,7 @@ class PokemonServiceTests: XCTestCase {
         let expectation = self.expectation(description: "Completion handler called")
         
         // When
-        service.fetchPokemonDetail(with: "Pikachu") { result in
+        sut.fetchPokemonDetail(with: "Pikachu") { result in
             // Then
             switch result {
             case .success(let fetchedPokemonDetail):
@@ -114,7 +114,7 @@ class PokemonServiceTests: XCTestCase {
         let expectation = self.expectation(description: "Completion handler called")
         
         // When
-        service.fetchPokemonDetail(with: "Pikachu") { result in
+        sut.fetchPokemonDetail(with: "Pikachu") { result in
             // Then
             switch result {
             case .success:

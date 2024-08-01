@@ -31,6 +31,8 @@
 		B26C2E292C5B191100412B55 /* MockPokemonListMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E282C5B191100412B55 /* MockPokemonListMapper.swift */; };
 		B26C2E2B2C5B193100412B55 /* MockPokemonDetailMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E2A2C5B193100412B55 /* MockPokemonDetailMapper.swift */; };
 		B26C2E2E2C5B199E00412B55 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E2D2C5B199E00412B55 /* Models.swift */; };
+		B26C2E302C5B201B00412B55 /* MockHttpRequestMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E2F2C5B201B00412B55 /* MockHttpRequestMapper.swift */; };
+		B26C2E332C5B207900412B55 /* PokemonListMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E322C5B207900412B55 /* PokemonListMapperTests.swift */; };
 		B2F795B72C582820004701EF /* PokemonListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795AB2C582820004701EF /* PokemonListRouter.swift */; };
 		B2F795B82C582820004701EF /* PokemonListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795AD2C582820004701EF /* PokemonListViewController.swift */; };
 		B2F795B92C582820004701EF /* PokemonListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795AF2C582820004701EF /* PokemonListViewModel.swift */; };
@@ -125,6 +127,8 @@
 		B26C2E282C5B191100412B55 /* MockPokemonListMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPokemonListMapper.swift; sourceTree = "<group>"; };
 		B26C2E2A2C5B193100412B55 /* MockPokemonDetailMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPokemonDetailMapper.swift; sourceTree = "<group>"; };
 		B26C2E2D2C5B199E00412B55 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B26C2E2F2C5B201B00412B55 /* MockHttpRequestMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHttpRequestMapper.swift; sourceTree = "<group>"; };
+		B26C2E322C5B207900412B55 /* PokemonListMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListMapperTests.swift; sourceTree = "<group>"; };
 		B2F795AB2C582820004701EF /* PokemonListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListRouter.swift; sourceTree = "<group>"; };
 		B2F795AD2C582820004701EF /* PokemonListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListViewController.swift; sourceTree = "<group>"; };
 		B2F795AF2C582820004701EF /* PokemonListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListViewModel.swift; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 		B24619BA2C5821BC00A9AF23 /* PokedexTests */ = {
 			isa = PBXGroup;
 			children = (
+				B26C2E312C5B206900412B55 /* Mappers */,
 				B26C2E212C5B189700412B55 /* Services */,
 				B26C2DF62C5AE37800412B55 /* Mocks */,
 				B26C2DF42C5AE36400412B55 /* Scenes */,
@@ -377,6 +382,7 @@
 			children = (
 				B26C2E282C5B191100412B55 /* MockPokemonListMapper.swift */,
 				B26C2E2A2C5B193100412B55 /* MockPokemonDetailMapper.swift */,
+				B26C2E2F2C5B201B00412B55 /* MockHttpRequestMapper.swift */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -395,6 +401,14 @@
 				B26C2E2D2C5B199E00412B55 /* Models.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		B26C2E312C5B206900412B55 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				B26C2E322C5B207900412B55 /* PokemonListMapperTests.swift */,
+			);
+			path = Mappers;
 			sourceTree = "<group>";
 		};
 		B2F795882C58279C004701EF /* PokemonList */ = {
@@ -925,6 +939,7 @@
 			files = (
 				B26C2E022C5AE4D300412B55 /* MockPokemonDataPersistence.swift in Sources */,
 				B26C2E232C5B18B000412B55 /* PokemonServiceTests.swift in Sources */,
+				B26C2E332C5B207900412B55 /* PokemonListMapperTests.swift in Sources */,
 				B26C2E272C5B18E900412B55 /* MockHTTPClient.swift in Sources */,
 				B26C2E2E2C5B199E00412B55 /* Models.swift in Sources */,
 				B26C2E122C5AECEB00412B55 /* PokemonListViewModelTests.swift in Sources */,
@@ -932,6 +947,7 @@
 				B26C2E162C5B014D00412B55 /* MockPokemonDetailDelegate.swift in Sources */,
 				B26C2E292C5B191100412B55 /* MockPokemonListMapper.swift in Sources */,
 				B26C2E082C5AE52100412B55 /* MockPokemonListDelegate.swift in Sources */,
+				B26C2E302C5B201B00412B55 /* MockHttpRequestMapper.swift in Sources */,
 				B26C2E002C5AE4B200412B55 /* MockPokemonService.swift in Sources */,
 				B26C2E182C5B016B00412B55 /* PokemonDetailViewModelTests.swift in Sources */,
 				B26C2E2B2C5B193100412B55 /* MockPokemonDetailMapper.swift in Sources */,
