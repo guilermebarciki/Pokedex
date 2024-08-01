@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-final class PokemonScannerViewController: UIViewController, ClassificationControllerDelegate {
+final class PokemonScannerViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -35,7 +35,6 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
     private var capturePhotoOutput: AVCapturePhotoOutput = {
         let capturePhotoOutput = AVCapturePhotoOutput()
         capturePhotoOutput.isHighResolutionCaptureEnabled = true
-        
         return capturePhotoOutput
     }()
     
@@ -48,7 +47,6 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
         return button
     }()
     
-    private lazy var classificationController = ClassificationController(delegate: self)
     
     // MARK: - View's life cycle
     
@@ -65,13 +63,13 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
         DispatchQueue.global().async { [captureSession] in
             captureSession.startRunning()
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         captureSession.stopRunning()
     }
+    
     
     // MARK: - Setup Methods
     
@@ -99,6 +97,7 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
         view.layer.insertSublayer(videoPreviewLayer, at: 0)
     }
     
+    
     // MARK: - Actions
     
     @objc private func capturePhoto() {
@@ -107,17 +106,30 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
         
         capturePhotoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
-    
-    // MARK: - ClassificationControllerDelegate
+  
+}
+
+
+// MARK: - PokemonScannerViewModelDelegate
+
+extension PokemonScannerViewController: PokemonScannerViewModelDelegate {
     
     func didFinishClassification(_ classification: (String, Float)) {
-        let message = String(format: "It's a %@ with confidence %.2f%%", classification.0, classification.1 * 100)
-        CoreDataPokemonDataPersistence().savePokemonName(classification.0)
-        let alertController = UIAlertController(title: "Match Found", message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
+            let message = String(format: "It's a %@ with confidence %.2f%%", classification.0, classification.1 * 100)
+            self?.showAlert(title: "Match Found", message: message)
+        }
     }
+    
+    func didFailClassification(errorMessage: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.showAlert(message: errorMessage)
+        }
+    }
+    
 }
+
 
 // MARK: - AVCapturePhotoCaptureDelegate
 
@@ -129,91 +141,8 @@ extension PokemonScannerViewController: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        classificationController.updateClassifications(for: image)
+        showLoadingIndicator()
+        viewModel.updateClassifications(for: image)
     }
 }
 
-// MARK: - PokemonScannerDelegate
-
-extension PokemonScannerViewController: PokemonScannerDelegate {}
-
-// MARK: - Navigation
-
-extension PokemonScannerViewController {
-    
-    func prepareForNavigation(with navigationData: PokemonScannerNavigationData) {
-        viewModel.prepareForNavigation(with: navigationData)
-    }
-}
-
-
-import UIKit
-import CoreML
-import Vision
-import ImageIO
-
-class ClassificationController {
-    
-    let delegate: ClassificationControllerDelegate!
-    
-    init(delegate: ClassificationControllerDelegate) {
-        self.delegate = delegate
-    }
-    
-    lazy var classificationRequest: VNCoreMLRequest = {
-        do {
-            let model = try VNCoreMLModel(for: PokemonClassifier2().model)
-            
-            let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
-                self?.processClassifications(for: request, error: error)
-            })
-            request.imageCropAndScaleOption = .centerCrop
-            return request
-        } catch {
-            fatalError("Failed to Load Pokemon ML Model: \(error)")
-        }
-    }()
-    
-    func updateClassifications(for image: UIImage) {
-        let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))
-        guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation!)
-            do {
-                try handler.perform([self.classificationRequest])
-            } catch {
-                print("Failed to perform classification.\n\(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func processClassifications(for request: VNRequest, error: Error?) {
-        
-        DispatchQueue.main.async {
-            guard let results = request.results else {
-                print("UNABLE TO CLASSIFY IMAGE \n \(error!.localizedDescription)")
-                return
-            }
-            
-            let classifications = results as! [VNClassificationObservation]
-            
-            if classifications.isEmpty {
-                print("NOTHING RECOGNIZED")
-            } else {
-                let topClassifications = classifications.prefix(2)
-                let descriptions = topClassifications.map { classification in
-                    return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
-                }
-                let description = (classifications.first!.identifier, classifications.first!.confidence)
-                print("Classification: \(descriptions.joined(separator: "\n"))")
-                self.delegate.didFinishClassification(description)
-            }
-        }
-    }
-    
-}
-
-protocol ClassificationControllerDelegate {
-    func didFinishClassification(_ classification: (String, Float))
-}

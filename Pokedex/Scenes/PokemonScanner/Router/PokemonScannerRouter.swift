@@ -28,10 +28,9 @@ final class PokemonScannerRouter {
 
 extension PokemonScannerRouter {
     
-    func navigate(with navigationData: PokemonScannerNavigationData, customAnimation: Bool = true, navigationType: NavigationType = .push, animated: Bool = true, completion: (() -> Void)? = nil) {
+    func navigate(customAnimation: Bool = true, navigationType: NavigationType = .push, animated: Bool = true, completion: (() -> Void)? = nil) {
         
         let viewController = PokemonScannerViewController()
-        viewController.prepareForNavigation(with: navigationData)
         
         if navigationType == .push {
             navigationController.pushViewController(viewController, animated: animated)
@@ -45,9 +44,3 @@ extension PokemonScannerRouter {
 // MARK: - External navigation
 
 extension PokemonScannerRouter {}
-
-#warning("separar em arquivo")
-enum NavigationType {
-    case push
-    case present
-}
