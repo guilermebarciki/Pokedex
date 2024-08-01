@@ -102,17 +102,4 @@ final class PokemonListViewModelTests: XCTestCase {
     }
 }
 
-extension Pokemon {
-    
-    static func getPikachuMock() -> Pokemon {
-        Pokemon(name: "Pikachu", number: 1, pokemonImage: "Pikachu")
-    }
-    
-    static func getBulbasaurMock() -> Pokemon {
-        Pokemon(name: "Bulbasaur", number: 1, pokemonImage: "Bulbasaur")
-    }
-    
-    static func getCharmanderMock() -> Pokemon {
-        Pokemon(name: "Charmander", number: 1, pokemonImage: "Charmander")
-    }
-}
+

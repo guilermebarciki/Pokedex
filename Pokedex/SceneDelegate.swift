@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let pokemonScannerNavController = UINavigationController(rootViewController: pokemonScannerViewController)
         pokemonScannerNavController.tabBarItem = UITabBarItem(title: "Scanner", image: UIImage(systemName: "camera.viewfinder"), tag: 1)
         
-        let tabBarController = UITabBarController()
+        let tabBarController = CustomTabBarController()
         tabBarController.viewControllers = [pokemonListNavController, pokemonScannerNavController]
         
         window?.rootViewController = tabBarController

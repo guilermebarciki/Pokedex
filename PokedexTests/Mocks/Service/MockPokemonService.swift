@@ -9,15 +9,19 @@
 
 class MockPokemonService: PokemonServiceProtocol {
     
-    func fetchPokemonDetail(with name: String, completion: @escaping (Pokedex.FetchPokemonDetailResult) -> Void) {
-        
-    }
-    
     var fetchPokemonListResult: FetchPokemonListResult?
+    var fetchPokemonDetailResult: FetchPokemonDetailResult?
     
     func fetchPokemonList(completion: @escaping (FetchPokemonListResult) -> Void) {
         if let result = fetchPokemonListResult {
             completion(result)
         }
     }
+    
+    func fetchPokemonDetail(with name: String, completion: @escaping (Pokedex.FetchPokemonDetailResult) -> Void) {
+        if let result = fetchPokemonDetailResult {
+            completion(result)
+        }
+    }
+    
 }

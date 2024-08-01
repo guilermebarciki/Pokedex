@@ -19,14 +19,14 @@ extension PokemonDetailResponse {
     
     func toDomainModel() -> PokemonDetail {
         let pokemonTypes = types.compactMap { PokemonType(rawValue: $0.type.name) }
-        let pokemonImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(id).png"
+        let pokemonImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(id).png"
         return PokemonDetail(
             id: id,
             name: name,
             height: Double(height) / 10,
             weight: Double(weight) / 10,
             types: pokemonTypes,
-            image: pokemonImage
+            imageUrl: pokemonImageUrl
         )
     }
     

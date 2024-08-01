@@ -17,13 +17,13 @@ protocol PokemonServiceProtocol {
 
 final class PokemonService: PokemonServiceProtocol {
     let client: HTTPClient
-    let pokemonListMapper: PokemonListMapper
-    let pokemonDetailMapper: PokemonDetailMapper
+    let pokemonListMapper: PokemonListMapperProtocol
+    let pokemonDetailMapper: PokemonDetailMapperProtocol
     
     init(
         client: HTTPClient = URLSession.shared,
-        pokemonListMapper: PokemonListMapper = PokemonListMapper(),
-        pokemonDetailMapper: PokemonDetailMapper = PokemonDetailMapper()
+        pokemonListMapper: PokemonListMapperProtocol = PokemonListMapper(),
+        pokemonDetailMapper: PokemonDetailMapperProtocol = PokemonDetailMapper()
     ) {
         self.client = client
         self.pokemonListMapper = pokemonListMapper

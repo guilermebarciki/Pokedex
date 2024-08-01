@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct PokemonListMapper {
+protocol PokemonListMapperProtocol {
+    func map(result: NetworkResult) -> Result<[Pokemon], ApiError>
+}
+
+struct PokemonListMapper: PokemonListMapperProtocol {
     private let mapper: HttpRequestMapperProtocol
     
     init(mapper: HttpRequestMapperProtocol = HttpRequestMaper()) {
@@ -26,7 +30,14 @@ struct PokemonListMapper {
     }
 }
 
-struct PokemonDetailMapper {
+
+
+
+protocol PokemonDetailMapperProtocol {
+    func map(result: NetworkResult) -> Result<PokemonDetail, ApiError>
+}
+
+struct PokemonDetailMapper: PokemonDetailMapperProtocol {
     private let mapper: HttpRequestMapperProtocol
     
     init(mapper: HttpRequestMapperProtocol = HttpRequestMaper()) {

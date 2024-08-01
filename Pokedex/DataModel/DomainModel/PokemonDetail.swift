@@ -14,7 +14,7 @@ struct PokemonDetail {
     let height: Double
     let weight: Double
     let types: [PokemonType]
-    let image: String
+    let imageUrl: String
 }
 
 enum PokemonType: String, Codable {

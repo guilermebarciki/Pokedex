@@ -132,6 +132,7 @@ extension PokemonListViewController: UITableViewDataSource {
         cell.configure(pokemon: pokemon, isCaught: isCaught, presentationMode: viewModel.getPresentationStatus())
         return cell
     }
+    
 }
 
 // MARK: - UITableViewDelegate
@@ -139,7 +140,6 @@ extension PokemonListViewController: UITableViewDataSource {
 extension PokemonListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let pokemon = viewModel.pokemon(at: indexPath.row) else { return }
-        //        router?.navigateToPokemonDetail(with: pokemon)
         router?.navigateToPokemonDetail(with: pokemon.name)
     }
 }

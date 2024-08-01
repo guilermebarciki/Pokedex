@@ -31,48 +31,38 @@ final class PokemonDetailViewController: UIViewController {
     private lazy var pokemonImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textAlignment = .center
-        return label
-    }()
+    private lazy var pokemonInfoView: PokemonInfoView = {
+           let view = PokemonInfoView()
+           view.translatesAutoresizingMaskIntoConstraints = false
+           return view
+       }()
     
-    private lazy var heightInfoView: InfoView = {
-        let view = InfoView()
-        return view
-    }()
+//    private lazy var nameLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont.boldSystemFont(ofSize: 24)
+//        label.textAlignment = .center
+//        return label
+//    }()
+//    
+//    private lazy var heightInfoView: InfoView = {
+//        let view = InfoView()
+//        return view
+//    }()
+//    
+//    private lazy var weightInfoView: InfoView = {
+//        let view = InfoView()
+//        return view
+//    }()
+//    
+//    private lazy var typesInfoView: InfoView = {
+//        let view = InfoView()
+//        return view
+//    }()
     
-    private lazy var weightInfoView: InfoView = {
-        let view = InfoView()
-        return view
-    }()
-    
-    private lazy var typesInfoView: InfoView = {
-        let view = InfoView()
-        return view
-    }()
-    
-    private lazy var stackView: TransparentAndRoudedStackView = {
-        let stackView = TransparentAndRoudedStackView(
-            arrangedSubviews: [
-                UIView(),
-                nameLabel,
-                UIView(),
-                heightInfoView,
-                weightInfoView,
-                typesInfoView,
-                UIView()
-            ]
-        )
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 10
-        return stackView
-    }()
     
     
     // MARK: - Init
@@ -103,13 +93,11 @@ final class PokemonDetailViewController: UIViewController {
     private func setupInterface() {
         view.backgroundColor = .white
         view.addSubview(pokemonImageView)
-        view.addSubview(stackView)
+        view.addSubview(pokemonInfoView)
         
     }
     
     private func setupConstraints() {
-        pokemonImageView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             pokemonImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -117,27 +105,22 @@ final class PokemonDetailViewController: UIViewController {
             pokemonImageView.heightAnchor.constraint(equalToConstant: 200),
             pokemonImageView.widthAnchor.constraint(equalToConstant: 200),
             
-            stackView.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            pokemonInfoView.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 20),
+            pokemonInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            pokemonInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
     
     
     // MARK: - Private Methods
     
-    private func updateInterface(with data: PokemonDetail) {
-        nameLabel.text = data.name.capitalized
-        heightInfoView.configure(title: "Height:", value: data.height.formattedHeight())
-        weightInfoView.configure(title: "Weigh:", value: data.weight.formattedWeight())
-        pokemonImageView.loadImage(urlString: data.image)
+    private func updateInterface(with pokemonInfo: PokemonInfo) {
+        pokemonImageView.loadImage(urlString: pokemonInfo.imageUrl)
+        pokemonInfoView.configure(with: pokemonInfo)
         
-        let typesText = data.types.map { $0.getTitle() }.joined(separator: ", ")
-        typesInfoView.configure(title: "Types:", value: typesText)
         
-        if let primaryType = data.types.first {
-            view.backgroundColor = primaryType.getColor()
-        }
+        view.backgroundColor = pokemonInfo.types.first?.getColor()
+        
     }
     
     private func fetchPokemon() {
@@ -162,7 +145,7 @@ extension PokemonDetailViewController: PokemonDetailDelegate {
     }
     
     
-    func didFetchPokemonDetail(_ detail: PokemonDetail) {
+    func didFetchPokemonDetail(_ detail: PokemonInfo) {
         DispatchQueue.main.async { [weak self] in
             self?.dismiss(animated: false)
             self?.hideLoadingIndicator()
