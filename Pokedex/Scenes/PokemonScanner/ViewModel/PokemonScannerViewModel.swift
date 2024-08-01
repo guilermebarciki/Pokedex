@@ -19,37 +19,32 @@ protocol PokemonScannerViewModelDelegate: AnyObject {
 
 final class PokemonScannerViewModel {
     
+    private let requestProvider: ClassificationRequestProvider
+    
     weak var delegate: PokemonScannerViewModelDelegate?
     
-    init(delegate: PokemonScannerViewModelDelegate) {
+    init(delegate: PokemonScannerViewModelDelegate, requestProvider: ClassificationRequestProvider = MLModelRequestProvider()) {
         self.delegate = delegate
+        self.requestProvider = requestProvider
     }
     
-    lazy var classificationRequest: VNCoreMLRequest = {
-        do {
-            let model = try VNCoreMLModel(for: PokemonClassifier2().model)
-            
-            let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
-                self?.processClassifications(for: request, error: error)
-            })
-            request.imageCropAndScaleOption = .centerCrop
-            return request
-        } catch {
-            fatalError("Failed to load Pokemon ML Model: \(error)")
-        }
-    }()
-    
     func updateClassifications(for image: UIImage) {
-        let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))
-        guard let ciImage = CIImage(image: image) else {
+        guard let classificationRequest = requestProvider.createClassificationRequest(completionHandler: processClassifications) else {
+            delegate?.didFailClassification(error: .modelLoadingFailed)
+            return
+        }
+        
+        guard
+            let ciImage = CIImage(image: image),
+            let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))else {
             delegate?.didFailClassification(error: .imageProcessingFailed)
             return
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation!)
+            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
             do {
-                try handler.perform([self.classificationRequest])
+                try handler.perform([classificationRequest])
             } catch {
                 self.delegate?.didFailClassification(error: .classificationFailed(error.localizedDescription))
             }
@@ -73,8 +68,11 @@ final class PokemonScannerViewModel {
         }
         
         let topClassifications = classifications.prefix(2)
-        let description = (classifications.first!.identifier, classifications.first!.confidence)
-        savePokemon(pokemonName: classifications.first!.identifier)
+        let identifier = classifications.first?.identifier ?? ""
+        let confidence = classifications.first?.confidence ?? 0.0
+        let description = (identifier, confidence)
+        
+        savePokemon(pokemonName: identifier)
         delegate?.didFinishClassification(description)
     }
     

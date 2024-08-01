@@ -39,6 +39,8 @@
 		B26C2E3C2C5B950B00412B55 /* CoreDataPokemonDataPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E3B2C5B950B00412B55 /* CoreDataPokemonDataPersistence.swift */; };
 		B26C2E412C5B9ABD00412B55 /* NavigationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E402C5B9ABD00412B55 /* NavigationType.swift */; };
 		B26C2E442C5B9F2200412B55 /* PokemonScannerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E432C5B9F2200412B55 /* PokemonScannerError.swift */; };
+		B26C2E482C5BA04600412B55 /* ClassificationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E472C5BA04600412B55 /* ClassificationProvider.swift */; };
+		B26C2E4A2C5BA35900412B55 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C2E492C5BA35900412B55 /* ImageProcessor.swift */; };
 		B2F795B72C582820004701EF /* PokemonListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795AB2C582820004701EF /* PokemonListRouter.swift */; };
 		B2F795B82C582820004701EF /* PokemonListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795AD2C582820004701EF /* PokemonListViewController.swift */; };
 		B2F795B92C582820004701EF /* PokemonListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F795AF2C582820004701EF /* PokemonListViewModel.swift */; };
@@ -141,6 +143,8 @@
 		B26C2E3B2C5B950B00412B55 /* CoreDataPokemonDataPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPokemonDataPersistence.swift; sourceTree = "<group>"; };
 		B26C2E402C5B9ABD00412B55 /* NavigationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationType.swift; sourceTree = "<group>"; };
 		B26C2E432C5B9F2200412B55 /* PokemonScannerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonScannerError.swift; sourceTree = "<group>"; };
+		B26C2E472C5BA04600412B55 /* ClassificationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationProvider.swift; sourceTree = "<group>"; };
+		B26C2E492C5BA35900412B55 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
 		B2F795AB2C582820004701EF /* PokemonListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListRouter.swift; sourceTree = "<group>"; };
 		B2F795AD2C582820004701EF /* PokemonListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListViewController.swift; sourceTree = "<group>"; };
 		B2F795AF2C582820004701EF /* PokemonListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonListViewModel.swift; sourceTree = "<group>"; };
@@ -458,6 +462,23 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
+		B26C2E452C5BA02800412B55 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B26C2E462C5BA02F00412B55 /* Providers */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B26C2E462C5BA02F00412B55 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				B26C2E472C5BA04600412B55 /* ClassificationProvider.swift */,
+				B26C2E492C5BA35900412B55 /* ImageProcessor.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
 		B2F795882C58279C004701EF /* PokemonList */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,6 +712,7 @@
 		B2F7960C2C59852D004701EF /* PokemonScanner */ = {
 			isa = PBXGroup;
 			children = (
+				B26C2E452C5BA02800412B55 /* Helpers */,
 				B26C2E422C5B9F1200412B55 /* Enums */,
 				B2F796392C59858D004701EF /* Resources */,
 				B2F796312C59858D004701EF /* Router */,
@@ -936,6 +958,8 @@
 				B2F796632C5AD865004701EF /* PokemonDataPersistenceProtocol.swift in Sources */,
 				B2F795B72C582820004701EF /* PokemonListRouter.swift in Sources */,
 				B2F796562C5ABD9B004701EF /* PokemonDetail.swift in Sources */,
+				B26C2E482C5BA04600412B55 /* ClassificationProvider.swift in Sources */,
+				B26C2E4A2C5BA35900412B55 /* ImageProcessor.swift in Sources */,
 				B2F796472C5993FA004701EF /* PokemonClassifier2.mlmodel in Sources */,
 				B26C2E1C2C5B051100412B55 /* InfoView.swift in Sources */,
 				B26C2E442C5B9F2200412B55 /* PokemonScannerError.swift in Sources */,
