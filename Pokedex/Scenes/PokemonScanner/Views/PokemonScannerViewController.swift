@@ -1,4 +1,4 @@
-//  
+//
 //  PokemonScannerViewController.swift
 //  Pokedex
 //
@@ -19,13 +19,30 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
         return PokemonScannerRouter(with: navigationController)
     }()
     
-    private var captureSession: AVCaptureSession!
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
-    private var capturePhotoOutput: AVCapturePhotoOutput!
+    private lazy var captureSession: AVCaptureSession = {
+        let captureSession = AVCaptureSession()
+        captureSession.sessionPreset = .photo
+        captureSession.addOutput(capturePhotoOutput)
+        return captureSession
+    }()
+    
+    private lazy var videoPreviewLayer: AVCaptureVideoPreviewLayer = {
+        let videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        videoPreviewLayer.videoGravity = .resizeAspectFill
+        return videoPreviewLayer
+    }()
+    
+    private var capturePhotoOutput: AVCapturePhotoOutput = {
+        let capturePhotoOutput = AVCapturePhotoOutput()
+        capturePhotoOutput.isHighResolutionCaptureEnabled = true
+        
+        return capturePhotoOutput
+    }()
     
     private lazy var captureButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton()
         button.setTitle("Capture", for: .normal)
+        button.setImage(UIImage(named: "pokeball"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
         return button
@@ -46,7 +63,7 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.global().async { [captureSession] in
-            captureSession?.startRunning()
+            captureSession.startRunning()
         }
         
     }
@@ -67,27 +84,17 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
             captureButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             captureButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             captureButton.widthAnchor.constraint(equalToConstant: 100),
-            captureButton.heightAnchor.constraint(equalToConstant: 50)
+            captureButton.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
     private func setupCamera() {
-        captureSession = AVCaptureSession()
-        captureSession.sessionPreset = .photo
-        
         guard let backCamera = AVCaptureDevice.default(for: .video),
               let input = try? AVCaptureDeviceInput(device: backCamera) else {
-            fatalError("Unable to access back camera!")
+            showAlert(message: "Unable to access back camera!")
+            return
         }
-        
-        capturePhotoOutput = AVCapturePhotoOutput()
-        capturePhotoOutput.isHighResolutionCaptureEnabled = true
-        
         captureSession.addInput(input)
-        captureSession.addOutput(capturePhotoOutput)
-        
-        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        videoPreviewLayer.videoGravity = .resizeAspectFill
         videoPreviewLayer.frame = view.layer.bounds
         view.layer.insertSublayer(videoPreviewLayer, at: 0)
     }
@@ -105,9 +112,7 @@ final class PokemonScannerViewController: UIViewController, ClassificationContro
     
     func didFinishClassification(_ classification: (String, Float)) {
         let message = String(format: "It's a %@ with confidence %.2f%%", classification.0, classification.1 * 100)
-        #warning("aqui persiste")
-//        caughtPokemons.insert(classification.0.lowercased())
-        UserDefaultsPokemonDataPersistence().savePokemonName(classification.0)
+        CoreDataPokemonDataPersistence().savePokemonName(classification.0)
         let alertController = UIAlertController(title: "Match Found", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
@@ -157,7 +162,6 @@ class ClassificationController {
     
     lazy var classificationRequest: VNCoreMLRequest = {
         do {
-            // Use the generated swift file from CoreML of Pokemon Classifier
             let model = try VNCoreMLModel(for: PokemonClassifier2().model)
             
             let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
@@ -207,13 +211,9 @@ class ClassificationController {
             }
         }
     }
-
+    
 }
 
 protocol ClassificationControllerDelegate {
     func didFinishClassification(_ classification: (String, Float))
 }
-
-
-#warning("persistencia de dados temporaria")
-var caughtPokemons: Set<String> = []

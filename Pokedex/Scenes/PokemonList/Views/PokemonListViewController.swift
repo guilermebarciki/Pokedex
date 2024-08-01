@@ -37,7 +37,8 @@ final class PokemonListViewController: UIViewController {
         setupConstraints()
         setupSearchController()
         setupTapGesture()
-        viewModel.fetchAllPokemon()
+        
+        fetchPokemons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +105,16 @@ extension PokemonListViewController {
     
 }
 
+
+// MARK: - Setup Methods
+
+extension PokemonListViewController {
+    private func fetchPokemons() {
+        showLoadingIndicator()
+        viewModel.fetchAllPokemon()
+    }
+}
+
 // MARK: - UISearchBarDelegate
 
 extension PokemonListViewController: UISearchBarDelegate {
@@ -150,6 +161,7 @@ extension PokemonListViewController: PokemonListDelegate {
     
     func didFail(errorMessage: String) {
         DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
             self?.showAlert(message: errorMessage)
         }
     }
@@ -157,6 +169,7 @@ extension PokemonListViewController: PokemonListDelegate {
     
     func didUpdatePokemonList() {
         DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
             self?.tableView.reloadData()
         }
     }

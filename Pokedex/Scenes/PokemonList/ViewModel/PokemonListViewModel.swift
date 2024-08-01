@@ -39,7 +39,7 @@ final class PokemonListViewModel {
     
     // MARK: - Init
     
-    init(delegate: PokemonListDelegate?, service: PokemonServiceProtocol = PokemonService(), dataPersistence: PokemonDataPersistence = UserDefaultsPokemonDataPersistence()) {
+    init(delegate: PokemonListDelegate?, service: PokemonServiceProtocol = PokemonService(), dataPersistence: PokemonDataPersistence = CoreDataPokemonDataPersistence()) {
         self.delegate = delegate
         self.service = service
         self.dataPersistence = dataPersistence
